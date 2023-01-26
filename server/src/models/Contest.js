@@ -1,7 +1,15 @@
-
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  const Contest = sequelize.define('Contests', {
+  class Contest extends Model {
+
+    static associate(models) {
+      Contest.hasMany(models.Offer, { foreignKey: 'contestId', targetKey: 'id' });  
+      Contest.belongsTo(models.User, { foreignKey: 'userId', sourceKey: 'id' });    
+    }
+    
+  }
+  Contest.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -83,11 +91,13 @@ module.exports = (sequelize, DataTypes) => {
     priority: {
       allowNull: false,
       type: DataTypes.INTEGER,
-    },
-  },
-  {
-    timestamps: false,
+    }
+  }, {
+    sequelize,
+    modelName: 'Contest',
+    tableName: 'Contests',
+    timestamps: false
   });
-
   return Contest;
 };
+

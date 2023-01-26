@@ -1,7 +1,20 @@
-
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  const Rating = sequelize.define('Ratings', {
+  class Rating extends Model {
+
+    static associate(models) {
+        Rating.belongsTo(models.User, {
+          foreignKey: 'userId', targetKey: 'id'
+        });     
+
+        Rating.belongsTo(models.Offer, {
+          foreignKey: 'offerId', targetKey: 'id'
+        });         
+    }
+  }
+ 
+  Rating.init({
     offerId: {
       allowNull: false,
       primaryKey: true,
@@ -20,11 +33,12 @@ module.exports = (sequelize, DataTypes) => {
         min: 0,
         max: 5,
       },
-    },
-  },
-  {
-    timestamps: false,
+    }
+  }, {
+    sequelize,
+    modelName: 'Rating',
+    tableName: 'Ratings',
+    timestamps: false
   });
-
   return Rating;
 };
