@@ -24,6 +24,8 @@ const SliderBar = (props) => {
         return style.exampleCarousel;
       case carouselConstants.FEEDBACK_SLIDER:
         return style.feedbackCarousel;
+      default:
+        return style.mainCarousel;
     }
   };
 
@@ -57,6 +59,10 @@ const SliderBar = (props) => {
             <span>{carouselConstants.FEEDBACK_SLIDER_TEXT[index].name}</span>
           </div>
         ));
+      }
+      default:{
+        return <>
+        </>
       }
     }
   };

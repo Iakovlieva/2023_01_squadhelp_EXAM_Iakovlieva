@@ -25,7 +25,8 @@ const Home = (props) => {
     };
   });
 
-  const { isFetching } = props;
+
+  const { isFetching, data } = props;
   const text = CONSTANTS.HEADER_ANIMATION_TEXT[index % CONSTANTS.HEADER_ANIMATION_TEXT.length];
   return (
     <>
@@ -44,9 +45,12 @@ const Home = (props) => {
                 Or, explore our hand-picked collection of premium names
                 available for immediate purchase
               </p>
-              <div className={styles.button}>
-                <Link className={styles.button__link} to="/dashboard">DASHBOARD</Link>
-              </div>
+              { data ? (
+                        <div className={styles.button}>
+                          <Link className={styles.button__link} to="/dashboard">DASHBOARD</Link>
+                        </div>
+                       ) : null
+              }
             </div>
             <div className={styles.greyContainer}>
               <SlideBar
@@ -203,9 +207,12 @@ const Home = (props) => {
               images={carouselConstants.exampleSliderImages}
               carouselType={carouselConstants.EXAMPLE_SLIDER}
             />
-            <div className={styles.button}>
-              <Link className={styles.button__link} to="/dashboard">DASHBOARD</Link>
-            </div>
+            { data ? (
+                      <div className={styles.button}>
+                        <Link className={styles.button__link} to="/dashboard">DASHBOARD</Link>
+                      </div>
+                     ) : null
+            }            
             <div className={styles.blueContainer}>
               <h2 className={styles.whiteUnderline}>What our customers say</h2>
               <SlideBar
@@ -222,8 +229,8 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { isFetching } = state.userStore;
-  return { isFetching };
+  const { isFetching, data } = state.userStore;   
+  return { isFetching, data };
 };
 
 export default connect(mapStateToProps, null)(Home);
