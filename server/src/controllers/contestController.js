@@ -158,8 +158,8 @@ const resolveOffer = async (
   const finishedContest = await contestQueries.updateContestStatus({
     status: db.sequelize.literal(`   CASE
             WHEN "id"=${ contestId }  AND "orderId"='${ orderId }' THEN '${ CONSTANTS.CONTEST_STATUS_FINISHED }'
-            WHEN "orderId"='${ orderId }' AND "priority"=${ priority +
-    1 }  THEN '${ CONSTANTS.CONTEST_STATUS_ACTIVE }'
+            WHEN "orderId"='${ orderId }' AND "priority"=${ priority + 1 }  THEN '${ CONSTANTS.CONTEST_STATUS_ACTIVE }'
+            WHEN "orderId"='${ orderId }' AND "priority"=${ priority - 1 }  THEN '${ CONSTANTS.CONTEST_STATUS_FINISHED }'   
             ELSE '${ CONSTANTS.CONTEST_STATUS_PENDING }'
             END
     `),
@@ -175,17 +175,20 @@ const resolveOffer = async (
     `),
   }, {
     contestId,
+    status: CONSTANTS.OFFER_STATUS_PENDING,
   }, transaction);
   transaction.commit();
   const arrayRoomsId = [];
   updatedOffers.forEach(offer => {
-    if (offer.status === CONSTANTS.OFFER_STATUS_REJECTED && creatorId !==
-      offer.userId) {
+    if (offer.status === CONSTANTS.OFFER_STATUS_REJECTED && contestId !==
+      offer.id) {
       arrayRoomsId.push(offer.userId);
     }
   });
-  controller.getNotificationController().emitChangeOfferStatus(arrayRoomsId,
-    'Someone of yours offers was rejected', contestId);
+  if (arrayRoomsId.length > 0){
+    controller.getNotificationController().emitChangeOfferStatus(arrayRoomsId,
+      'Someone of yours offers was rejected', contestId);
+  }
   controller.getNotificationController().emitChangeOfferStatus(creatorId,
     'Someone of your offers WIN', contestId);
   return updatedOffers[ 0 ].dataValues;
