@@ -7,12 +7,12 @@ const TaglineContestSpecialInfo = (props) => {
     <>
       {nameVenture && (
       <div className={styles.dataContainer}>
-        <span className={styles.label}>Name ventrure</span>
+        <span className={styles.label}>Name venture</span>
         <span className={styles.data}>{nameVenture}</span>
       </div>
       )}
       <div className={styles.dataContainer}>
-        <span className={styles.label}>Type of Taglinee</span>
+        <span className={styles.label}>Type of Tagline</span>
         <span className={styles.data}>{typeOfTagline}</span>
       </div>
     </>

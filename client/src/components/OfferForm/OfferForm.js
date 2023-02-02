@@ -8,8 +8,11 @@ import ImageUpload from '../InputComponents/ImageUpload/ImageUpload';
 import FormInput from '../FormInput/FormInput';
 import Schems from '../../validators/validationSchems';
 import Error from '../Error/Error';
+import OfferShortContestInfo from '../Contest/ContestInfo/OfferShortContestInfo';
 
 const OfferForm = (props) => {
+
+
   const renderOfferInput = () => {
     if (props.contestType === CONTANTS.LOGO_CONTEST) {
       return (
@@ -23,18 +26,26 @@ const OfferForm = (props) => {
         />
       );
     }
+
     return (
-      <FormInput
-        name="offerData"
-        classes={{
-          container: styles.inputContainer,
-          input: styles.input,
-          warning: styles.fieldWarning,
-          notValid: styles.notValid,
-        }}
-        type="text"
-        label="your suggestion"
-      />
+      <>
+        <OfferShortContestInfo
+        contestType={props.contestType}
+        title={props.title}
+        />
+        
+        <FormInput
+          name="offerData"
+          classes={{
+            container: styles.inputContainer,
+            input: styles.input,
+            warning: styles.fieldWarning,
+            notValid: styles.notValid,
+          }}
+          type="text"
+          label="your suggestion"
+        />
+      </>
     );
   };
 
@@ -50,8 +61,9 @@ const OfferForm = (props) => {
     resetForm();
   };
 
-  const { valid, addOfferError, clearOfferError } = props;
+  const { addOfferError, clearOfferError } = props;
   const validationSchema = props.contestType === CONTANTS.LOGO_CONTEST ? Schems.LogoOfferSchema : Schems.TextOfferSchema;
+
   return (
     <div className={styles.offerContainer}>
       {addOfferError
@@ -65,7 +77,7 @@ const OfferForm = (props) => {
       >
         <Form className={styles.form}>
           {renderOfferInput()}
-          {valid && <button type="submit" className={styles.btnOffer}>Send Offer</button>}
+          <button type="submit" className={styles.btnOffer}>Send Offer</button>
         </Form>
       </Formik>
     </div>

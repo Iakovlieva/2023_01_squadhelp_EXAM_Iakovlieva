@@ -169,6 +169,7 @@ const ContestPage = (props) => {
                                               contestType={contestData.contestType}
                                               contestId={contestData.id}
                                               customerId={contestData.User.id}
+                                              title={contestData.title}
                                             />
                                             )}
                                           {setOfferStatusError && (
