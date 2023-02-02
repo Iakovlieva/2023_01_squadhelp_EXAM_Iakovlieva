@@ -14,16 +14,23 @@ const ContestInfo = (props) => {
     title, focusOfWork, targetCustomer, industry, originalFileName,
     fileName, User, status,
   } = contestData;
+  
+
+  const published_status=(status===CONSTANTS.CONTEST_STATUS_FINISHED ? 'Contest is completed' : (status===CONSTANTS.CONTEST_STATUS_ACTIVE ? 'Contest is active' : 'Contest is inactive' ));
+
   return (
-    <div className={styles.mainContestInfoContainer}>
+    <div className={styles.mainContestInfoContainer}>  
       <div className={styles.infoContainer}>
-        <div className={styles.contestTypeContainer}>
+        <div className={styles.dataContainer}> 
+          { published_status ? <span className={styles.labelee}>{published_status}</span> :null }        
+        </div>                   
+        <div className={styles.contestTypeContainer}>     
           <div className={styles.dataContainer}>
-            <span className={styles.label}>Contest Type</span>
+            <span className={styles.label}>Contest Type</span>            
             <span className={styles.data}>{contestType}</span>
           </div>
           {
-                        (User.id === userId && status !== CONSTANTS.CONTEST_STATUS_FINISHED)
+                        (User.id === userId && status === CONSTANTS.CONTEST_STATUS_ACTIVE)
                         && <div onClick={() => changeEditContest(true)} className={styles.editBtn}>Edit</div>
                     }
           {

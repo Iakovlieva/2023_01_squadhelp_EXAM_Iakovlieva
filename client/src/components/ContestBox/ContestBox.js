@@ -23,14 +23,19 @@ const ContestBox = (props) => {
   const ucFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
   const {
-    id, title, contestType, prize, count,
+    id, title, contestType, prize, count, status
   } = props.data;
+
+  const published_status=(status===CONSTANTS.CONTEST_STATUS_FINISHED ? '( Contest is completed)' : (status===CONSTANTS.CONTEST_STATUS_ACTIVE ? '( Contest is active)' : 'Contest is inactive' ));
+  
+  
   return (
     <div className={styles.contestBoxContainer} onClick={() => props.goToExtended(id)}>
       <div className={styles.mainContestInfo}>
         <div className={styles.titleAndIdContainer}>
           <span className={styles.title}>{title}</span>
           <span className={styles.id}>{`(#${id})`}</span>
+          {published_status ? <span className={styles.id}>{published_status}</span> : null}
         </div>
         <div className={styles.contestType}>
           <span>{`${ucFirstLetter(contestType)} / ${getPreferenceContest()}`}</span>
