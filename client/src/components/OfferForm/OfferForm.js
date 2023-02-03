@@ -27,13 +27,7 @@ const OfferForm = (props) => {
       );
     }
 
-    return (
-      <>
-        <OfferShortContestInfo
-        contestType={props.contestType}
-        title={props.title}
-        />
-        
+    return (       
         <FormInput
           name="offerData"
           classes={{
@@ -45,18 +39,22 @@ const OfferForm = (props) => {
           type="text"
           label="your suggestion"
         />
-      </>
     );
   };
 
   const setOffer = (values, { resetForm }) => {
+    console.log('------------------------------');
     props.clearOfferError();
     const data = new FormData();
     const { contestId, contestType, customerId } = props;
+
     data.append('contestId', contestId);
     data.append('contestType', contestType);
     data.append('offerData', values.offerData);
     data.append('customerId', customerId);
+    console.log('----------props--------------------',contestType);        
+    console.log('----------values.offerData--------------------',values.offerData);     
+    console.log('----------data--------------------',data);    
     props.setNewOffer(data);
     resetForm();
   };
@@ -76,6 +74,10 @@ const OfferForm = (props) => {
         validationSchema={validationSchema}
       >
         <Form className={styles.form}>
+          <OfferShortContestInfo
+          contestType={props.contestType}
+          title={props.title}
+          />          
           {renderOfferInput()}
           <button type="submit" className={styles.btnOffer}>Send Offer</button>
         </Form>

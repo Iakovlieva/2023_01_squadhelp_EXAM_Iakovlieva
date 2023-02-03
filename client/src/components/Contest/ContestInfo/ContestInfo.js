@@ -22,7 +22,7 @@ const ContestInfo = (props) => {
     <div className={styles.mainContestInfoContainer}>  
       <div className={styles.infoContainer}>
         <div className={styles.dataContainer}> 
-          { published_status ? <span className={styles.labelee}>{published_status}</span> :null }        
+          { published_status ? <span className={styles.labelstatus}>{published_status}</span> :null }        
         </div>                   
         <div className={styles.contestTypeContainer}>     
           <div className={styles.dataContainer}>
