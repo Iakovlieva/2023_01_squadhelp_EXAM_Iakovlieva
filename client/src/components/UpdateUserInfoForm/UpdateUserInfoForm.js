@@ -12,6 +12,7 @@ const UpdateUserInfoForm = (props) => {
   const {
     onSubmit, submitting, error, clearUserError,
   } = props;
+
   return (
     <Formik onSubmit={onSubmit} initialValues={props.initialValues} validationSchema={Schems.UpdateUserSchema}>
       <Form className={styles.updateContainer}>
@@ -59,7 +60,7 @@ const UpdateUserInfoForm = (props) => {
           />
         </div>
         <ImageUpload
-          name="file"
+          name="avatar"
           classes={{
             uploadContainer: styles.imageUploadContainer,
             inputContainer: styles.uploadInputContainer,
@@ -82,6 +83,7 @@ const mapStateToProps = (state) => {
       firstName: data.firstName,
       lastName: data.lastName,
       displayName: data.displayName,
+      avatar: data.avatar,
     },
   };
 };

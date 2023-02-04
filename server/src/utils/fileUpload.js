@@ -3,7 +3,7 @@ const path = require('path');
 const multer = require('multer');
 const ServerError = require('../errors/ServerError');
 const env = process.env.NODE_ENV || 'development';
-const devFilePath = path.resolve(__dirname, '../../../public/images');
+const devFilePath = path.resolve(__dirname, '../../public/images');
 
 
 const filePath = env === 'production'
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const uploadAvatar = multer({ storage }).single('file');
+const uploadAvatar = multer({ storage }).single('avatar');
 const uploadContestFiles = multer({ storage }).array(
   'files', 3);
   const updateContestFile = multer({ storage }).single(
