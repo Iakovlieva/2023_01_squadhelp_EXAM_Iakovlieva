@@ -105,6 +105,10 @@ const Header = (props) => {
               <div className={styles.nav}>
                 <ul>
                   <li>
+                  {props.data && props.data.role === CONSTANTS.CUSTOMER && <Link
+                    to="/events"><span>UPCOMING EVENTS</span></Link>}                    
+                  </li>
+                  <li>
                     <span>NAME IDEAS</span>
                     <img
                       src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
@@ -140,7 +144,7 @@ const Header = (props) => {
                         <a href="# ">
                             BECOME A
                             CREATIVE
-</a>
+                        </a>
                       </li>
                     </ul>
                   </li>
@@ -172,7 +176,7 @@ const Header = (props) => {
                         <a href="# ">
                             SELL YOUR
                             DOMAINS
-</a>
+                        </a>
                       </li>
                     </ul>
                   </li>

@@ -292,3 +292,67 @@ export const changeModalShow = (data) => ({
   type: ACTION.CHANGE_SHOW_MODAL,
   data,
 });
+
+
+/***********************************/
+export const getEventsRequest = () => {
+  return {
+      type: ACTION.GET_EVENTS_REQUEST
+  }
+}
+
+export const getEventsSuccess = (data) => { 
+  return {
+      type: ACTION.GET_EVENTS_SUCCESS,
+      data
+  }
+}
+
+export const getEventsError = (error) => {
+  return {
+      type: ACTION.GET_EVENTS_ERROR,
+      error
+  }
+}
+/***********************************/
+export const createEventRequest = (payload) => {
+  return {
+      type: ACTION.CREATE_EVENT_REQUEST,
+      payload
+  }
+}
+
+export const createEventSuccess = (data) => {  
+  return {
+      type: ACTION.CREATE_EVENT_SUCCESS,
+      data
+  }
+}
+
+export const createEventError = (error) => {
+  return {
+      type: ACTION.CREATE_EVENT_ERROR,
+      error
+  }
+}
+/***********************************/
+export const deleteEventRequest = (payload) => {
+  return {
+      type: ACTION.DELETE_EVENT_REQUEST,
+      payload
+  }
+}
+
+export const deleteEventSuccess = (data) => {  
+  return {
+      type: ACTION.DELETE_EVENT_SUCCESS,
+      data
+  }
+}
+
+export const deleteEventError = (error) => {
+  return {
+      type: ACTION.DELETE_EVENT_ERROR,
+      error
+  }
+}

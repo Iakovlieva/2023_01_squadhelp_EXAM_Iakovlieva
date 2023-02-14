@@ -66,6 +66,11 @@ const Schems = {
   CatalogSchema: yup.object({
     catalogName: yup.string().test('test-catalogName', 'required', (value) => value && value.trim().length >= 1).required('required'),
   }),
+  EventSchema: yup.object({
+    eventName: yup.string().required('required'),
+    eventDate: yup.date().required('required'),
+    deadline: yup.string(),
+  }),  
 };
 
 export default Schems;

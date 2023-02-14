@@ -188,3 +188,90 @@
 
   .fileInput
     display: none
+
+
+
+.eventForm
+  max-width: 800px
+  margin:0 auto
+  box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.1)
+  margin-bottom: 20px  
+  margin-top: 20px    
+
+  .eventInfo
+    text-align: center
+
+    h2
+      color: #28d2d0
+      font-size: 36px
+      font-weight: 600
+      margin-bottom: 10px
+
+.buttonEventContainer
+  display: flex
+  justify-content: center
+  align-items: center
+  background-color: #f3875d
+  height: 70px
+  border-radius: 10px
+  font-size: 26px
+  margin: 0 auto
+  color: white
+  font-weight: 700
+  width: 275px
+  min-width: 140px
+  cursor: pointer
+
+  &:hover
+    font-size: 32px
+    transition: font-size 0.1s ease-in-out
+
+  @media (max-width: 700px)
+    font-size: 22px
+    height: 60px
+    width: auto
+  @media(max-width: 400px)
+    margin: 0 10px  
+
+.eventListUl
+  padding: 20px
+  width: 650px
+  margin:0 auto
+  margin-top: 20px  
+  max-height: 225px
+  border-radius: 10px
+  overflow-y: scroll
+  box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.1)
+  @media(max-width: 700px)
+    width: auto
+
+.eventListItem
+  box-shadow: 0 5px 10px 3px rgba(0, 0, 0, 0.1)
+  border-radius: 3px
+  height: 100%
+  margin: 0 auto
+  background-color: #eee
+  padding: 10px
+  margin-bottom: 5px
+  width: 630px
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  position: relative
+  @media(max-width: 700px)
+    width: auto  
+  
+  .eventListItemGreen    
+    background-color: green
+    border-radius: 3px
+    opacity: 20%
+    position: absolute
+    top: 0
+    left: 0
+    font-size: 1px
+    height: 100%
+  
+  div
+    &:last-child
+      margin-left: auto
+
