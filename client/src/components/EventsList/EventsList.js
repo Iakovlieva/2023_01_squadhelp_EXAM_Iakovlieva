@@ -14,16 +14,13 @@ const EventsList = (props) => {
 
         const notificationList=eventsList.map((elem)=>
             {
-                const timeToNotification = Date.parse(elem.eventDate) - Date.parse(new Date());//- elem.deadline*60*1000;
-                elem.timeToNotification = timeToNotification;
+                elem.timeToNotification = Date.parse(elem.eventDate) - Date.parse(new Date())- elem.deadline*60*1000;
+                elem.timeToEvent = Date.parse(elem.eventDate) - Date.parse(new Date());
                 return elem;                
             })
-            .sort((a,b)=> b.timeToNotification>a.timeToNotification ? -1 :1)          
-            .filter((elem) => (elem.timeToNotification>0));
-
-        console.log(eventsList);
-        console.log(notificationList);        
-            
+            .sort((a,b)=> b.timeToEvent>a.timeToEvent ? -1 :1)          
+            .filter((elem) => (elem.timeToEvent>0));   
+      
         let maxGreenValue=7*24*60*60*1000; //7 days
         if (notificationList.length>0) maxGreenValue=notificationList[notificationList.length-1].timeToNotification;
     

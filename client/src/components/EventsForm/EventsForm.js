@@ -13,7 +13,6 @@ const EventsForm = (props) => {
         deadline: 2,
     }
     const onSubmit = (value, actions) => {
-        console.log(value);
         props.sendData(value);
         actions.resetForm();
     }
