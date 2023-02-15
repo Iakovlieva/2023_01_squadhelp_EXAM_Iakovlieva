@@ -1,0 +1,55 @@
+.buttonGroupContainer
+  max-width: 1200px
+  margin: 0 auto
+  margin-bottom: 20px  
+  margin-top: 20px    
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  @media(max-width: 992px)
+    flex-direction: column
+    align-items: stretch        
+
+.buttonItem
+  background-color: #fff
+  padding: 20px
+  border-radius: 8px
+  color: #555C6B
+  border: 1px solid #e7eaf3
+  padding: 20px
+  margin: 10px
+  display: flex
+  font-size: 85%
+  flex-direction: column
+  justify-content: center
+  align-items: flex-start
+  @media(max-width: 767px)
+    flex-direction: row   
+    align-items: center  
+    justify-content: flex-start
+
+  &:active
+    transition: border ease-in-out 2s
+
+  .buttonItemButton
+    background-color: #77838f
+    color: #fff
+    border-radius: 20px
+    font-size: 75%
+    padding: 10px 20px
+    margin: 0 auto
+    margin-bottom: 10px
+    @media(max-width: 767px)
+      margin: 0px     
+
+  .buttonItemText
+    margin: 0 auto
+    text-align: center 
+    @media(max-width: 767px)
+      text-align: left
+      margin: 0px
+      padding-left: 30px      
+
+
+

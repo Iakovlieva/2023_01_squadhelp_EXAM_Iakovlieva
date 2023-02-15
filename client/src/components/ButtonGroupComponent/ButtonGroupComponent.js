@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ButtonGroupItem from '../ButtonGroupItem/ButtonGroupItem';
-import styles from "../ContestForm/ContestForm.module.sass";
+import styles from "../ButtonGroupComponent/ButtonGroupComponent.module.sass";
 
 
 const ButtonGroupComponent = (props) => {
@@ -22,7 +22,7 @@ const ButtonGroupComponent = (props) => {
 
 
     return (
-        <div className={styles.eventListItem} style={{backgroundColor: "blue" }}>
+        <div className={styles.buttonGroupContainer} >
             {buttonToItems()}
         
         </div>        
