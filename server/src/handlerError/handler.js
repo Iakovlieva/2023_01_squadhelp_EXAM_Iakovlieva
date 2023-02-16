@@ -3,10 +3,10 @@ const fs = require('fs');
 const path = require('path');
 
 
-const fileloging = async (filepath, text) => {
+const fileloging = async (filename, text) => {
 
   fs.writeFileSync(
-    filepath,
+    filename,
     `${text}\n`,
     { encoding: "utf-8", flag: "a+" }
   );
@@ -65,7 +65,7 @@ module.exports = (err, req, res, next) => {
 
   const logFileName = `${filePath}/logfile.txt`;
 
-  const errLogText=`{message: "${err.message}", time: ${Date.parse(new Date())}, code: ${err.code}, stackTrace: {${err.stack}}`;    
+  const errLogText=`{message: "${err.message}", time: ${Date.parse(new Date())}, code: ${err.code}, stackTrace: {${err.stack}}}`;    
 
   fileloging(logFileName, errLogText);
 
