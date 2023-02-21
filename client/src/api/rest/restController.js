@@ -29,6 +29,9 @@ export const getCustomersContests = (data) => http.post('getCustomersContests', 
   },
 });
 
+export const getModeratorOffers = (data) => http.post('getAllOffers', { limit: data.limit, offset: data.offset });
+
+
 export const getActiveContests = ({
   offset, limit, typeIndex, contestId, industry, awardSort, ownEntries,
 }) => http.post('getAllContests', {

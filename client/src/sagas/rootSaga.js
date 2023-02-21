@@ -13,7 +13,7 @@ import {
   getContestByIdSaga,
   downloadContestFileSaga,
 } from './contestsSagas';
-import { changeMarkSaga, setOfferStatusSaga, addOfferSaga } from './offerSagas';
+import { changeMarkSaga, setOfferStatusSaga, addOfferSaga, moderatorOffersSaga } from './offerSagas';
 import {
   previewSaga,
   getDialog,
@@ -62,6 +62,9 @@ function* rootSaga() {
   yield takeLatest(ACTION.GET_EVENTS_REQUEST, getEventsSaga);
   yield takeLatest(ACTION.CREATE_EVENT_REQUEST, createEventSaga);
   yield takeLatest(ACTION.DELETE_EVENT_REQUEST, deleteEventSaga);  
+
+
+  yield takeLatest(ACTION.GET_OFFERS_FOR_MODERATOR, moderatorOffersSaga);  
 }
 
 export default rootSaga;

@@ -37,6 +37,8 @@ module.exports.dataForContest = async (req, res, next) => {
 };
 
 module.exports.getContestById = async (req, res, next) => {
+  //Если креатор, то показываем те которое с его ИД, а если кустомер - то разрешенные/реджект/вон
+  const types = [CONSTANTS.OFFER_STATUS_ALLOWED, CONSTANTS.OFFER_STATUS_REJECTED, CONSTANTS.OFFER_STATUS_WON].filter(Boolean);  
   try {
     let contestInfo = await db.Contest.findOne({
       where: { id: req.headers.contestid },
@@ -61,7 +63,10 @@ module.exports.getContestById = async (req, res, next) => {
           required: false,
           where: req.tokenData.role === CONSTANTS.CREATOR
             ? { userId: req.tokenData.userId }
-            : {},
+            : { status: {
+                [ db.Sequelize.Op.or ]: types
+                },
+              },
           attributes: { exclude: ['userId', 'contestId'] },
           include: [
             {
@@ -153,6 +158,23 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
   return rejectedOffer;
 };
 
+const allowOffer = async (offerId, creatorId, contestId) => {
+  const allowedOffer = await contestQueries.updateOffer(
+    { status: CONSTANTS.OFFER_STATUS_ALLOWED }, { id: offerId });
+    console.log('creatorIdcreatorId',creatorId);
+  controller.getNotificationController().emitChangeOfferStatus(creatorId,
+    'Someone of yours offers was allowed', contestId);
+  return allowedOffer;
+};
+
+const forbidOffer = async (offerId, creatorId, contestId) => {
+  const forbiddenOffer = await contestQueries.updateOffer(
+    { status: CONSTANTS.OFFER_STATUS_FORBIDDEN }, { id: offerId });
+  controller.getNotificationController().emitChangeOfferStatus(creatorId,
+    'Someone of yours offers was forbidden', contestId);
+  return forbiddenOffer;
+};
+
 const resolveOffer = async (
   contestId, creatorId, orderId, offerId, priority, transaction) => {
   const finishedContest = await contestQueries.updateContestStatus({
@@ -169,29 +191,45 @@ const resolveOffer = async (
     creatorId, transaction);
   const updatedOffers = await contestQueries.updateOfferStatus({
     status: db.sequelize.literal(` CASE
-            WHEN "id"=${ offerId } THEN '${ CONSTANTS.OFFER_STATUS_WON }'
+            WHEN "id"=${ offerId } AND "status"='${ CONSTANTS.OFFER_STATUS_ALLOWED }' THEN '${ CONSTANTS.OFFER_STATUS_WON }'
+            WHEN "id"<>${ offerId } AND "status"='${ CONSTANTS.OFFER_STATUS_ALLOWED }' THEN '${ CONSTANTS.OFFER_STATUS_REJECTED }'
+            WHEN "id"<>${ offerId } AND "status"='${ CONSTANTS.OFFER_STATUS_FORBIDDEN }' THEN '${ CONSTANTS.OFFER_STATUS_FORBIDDEN }'       
+            WHEN "id"<>${ offerId } AND "status"='${ CONSTANTS.OFFER_STATUS_PENDING }' THEN '${ CONSTANTS.OFFER_STATUS_FORBIDDEN }'                                      
             ELSE '${ CONSTANTS.OFFER_STATUS_REJECTED }'
             END
     `),
   }, {
     contestId,
-    status: CONSTANTS.OFFER_STATUS_PENDING,
   }, transaction);
+
+  /*чтобы Кустомер видел только те оферы которые прошли модерацию и после победы какого-то из оферов - сделала чтоб те которые были отклоненными - так ими и остались, и те которые были пендинг - 
+  тоже чтобы были отклоненными, т.е. "все что не подтверждено - отклонено"
+
+  по идее можно было оставить фильтр на "алоуед", но тогда у модератора бы "болтались" оферы на рассмотрении, которые уже не нужны
+   */
   transaction.commit();
   const arrayRoomsId = [];
+  let winningoffer=null;
   updatedOffers.forEach(offer => {
-    if (offer.status === CONSTANTS.OFFER_STATUS_REJECTED && contestId !==
-      offer.id) {
+    if (offer.status === CONSTANTS.OFFER_STATUS_REJECTED && creatorId !== offer.userId) {
       arrayRoomsId.push(offer.userId);
     }
+    if (offer.status === CONSTANTS.OFFER_STATUS_WON ) {
+      winningoffer = offer;
+    }
   });
+  /*
+   тут по ходу выяснения нашелся баг, который не заметила вначале, не обновлялись оферы когда один из них победит, 
+   поскольку неверно возвращался победитель
+   и заодно поправила оповещение - победителю про проигравшие его же - не приходит теперь
+   */
   if (arrayRoomsId.length > 0){
     controller.getNotificationController().emitChangeOfferStatus(arrayRoomsId,
       'Someone of yours offers was rejected', contestId);
   }
   controller.getNotificationController().emitChangeOfferStatus(creatorId,
-    'Someone of your offers WIN', contestId);
-  return updatedOffers[ 0 ].dataValues;
+    'Someone of your offers WIN', contestId);    
+  return winningoffer;
 };
 
 module.exports.setOfferStatus = async (req, res, next) => {
@@ -215,10 +253,27 @@ module.exports.setOfferStatus = async (req, res, next) => {
       transaction.rollback();
       next(err);
     }
+  } else if (req.body.command === 'allow') {
+    try {
+      const offer = await allowOffer(req.body.offerId, req.body.creatorId,
+        req.body.contestId);
+      res.send(offer);
+    } catch (err) {
+      next(err);
+    }
+  } else if (req.body.command === 'forbid') {
+    try {
+      const offer = await forbidOffer(req.body.offerId, req.body.creatorId,
+        req.body.contestId);
+      res.send(offer);
+    } catch (err) {
+      next(err);
+    }
   }
 };
 
 module.exports.getCustomersContests = (req, res, next) => {
+  const types = [CONSTANTS.OFFER_STATUS_ALLOWED, CONSTANTS.OFFER_STATUS_REJECTED, CONSTANTS.OFFER_STATUS_WON].filter(Boolean);  
   db.Contest.findAll({
     where: { status: req.headers.status, userId: req.tokenData.userId },
     limit: req.body.limit,
@@ -228,7 +283,12 @@ module.exports.getCustomersContests = (req, res, next) => {
       {
         model: db.Offer,
         required: false,
-        attributes: ['id'],
+        attributes: ['id'],     
+        where: {
+          status: {
+            [ db.Sequelize.Op.or ]: types,
+          },
+        },          
       },
     ],
   })
@@ -239,7 +299,7 @@ module.exports.getCustomersContests = (req, res, next) => {
       if (contests.length === 0) {
         haveMore = false;
       }
-      res.send({ contests, haveMore });
+      res.send({ contests, haveMore });    
     })
     .catch(err => next(new ServerError(err)));
 };
@@ -269,6 +329,44 @@ module.exports.getContests = (req, res, next) => {
         haveMore = false;
       }
       res.send({ contests, haveMore });
+    })
+    .catch(err => {
+      next(new ServerError());
+    });
+};
+
+
+module.exports.getAllOffers = (req, res, next) => {
+  db.Offer.findAll({
+    limit: req.body.limit,
+    offset: req.body.offset ? req.body.offset : 0,
+    order: [['id', 'DESC']], 
+    include: [
+      {
+        model: db.Contest,
+        include: [
+          {
+          model: db.User,
+          required: true,
+          attributes: {
+            exclude: [
+              'password',
+              'role',
+              'balance',
+              'accessToken',
+            ],
+          },
+        },
+        ]
+      },
+      ],
+  })
+    .then(offers => {
+      let haveMore = true;
+      if (offers.length === 0) {
+        haveMore = false;
+      }
+      res.send( { offers, haveMore });
     })
     .catch(err => {
       next(new ServerError());

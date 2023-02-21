@@ -82,7 +82,14 @@ const OfferBox = (props) => {
       return <i className={classNames('fas fa-times-circle reject', styles.reject)} />;
     } if (status === CONSTANTS.OFFER_STATUS_WON) {
       return <i className={classNames('fas fa-check-circle resolve', styles.resolve)} />;
-    }
+    } 
+  if (role !== CONSTANTS.CUSTOMER){
+    if (status === CONSTANTS.OFFER_STATUS_ALLOWED) {
+    return <i className={classNames('fas fa-thumbs-up resolve', styles.resolve)} />;
+    } if (status === CONSTANTS.OFFER_STATUS_FORBIDDEN) {
+    return <i className={classNames('fas fa-thumbs-down reject', styles.reject)} />;
+    }      
+  }
     return null;
   };
 
@@ -152,7 +159,7 @@ const OfferBox = (props) => {
           />
           )}
         </div>
-        {role !== CONSTANTS.CREATOR && <i onClick={goChat} className="fas fa-comments" />}
+        {((role === CONSTANTS.CUSTOMER) && (data.status === CONSTANTS.OFFER_STATUS_ALLOWED)) && <i onClick={goChat} className="fas fa-comments" />}
       </div>
       {props.needButtons(data.status) && (
       <div className={styles.btnsContainer}>
@@ -181,3 +188,7 @@ const mapStateToProps = (state) => {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OfferBox));
+
+/*
+кнопка чата имеет смысл только пока оффер рассматривается? дальше - о чем разговаривать?)
+*/

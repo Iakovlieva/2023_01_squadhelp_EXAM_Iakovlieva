@@ -82,7 +82,7 @@ module.exports.canSendOffer = async (req, res, next) => {
 
 };
 
-module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
+module.exports.onlyForCustomerWhoCreateContestOrModerator = async (req, res, next) => {
   try {
     const result = await db.Contest.findOne({
       where: {
@@ -90,8 +90,8 @@ module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
         id: req.body.contestId,
         status: CONSTANTS.CONTEST_STATUS_ACTIVE,
       },
-    });
-    if (!result) {
+    });  
+    if ((!result) && (req.tokenData.role !== CONSTANTS.MODERATOR)) {
       return next(new RightsError());
     }
     next();

@@ -4,6 +4,7 @@ const serverPort = 3000;
 const CONSTANTS = {
   CUSTOMER: 'customer',
   CREATOR: 'creator',
+  MODERATOR: 'moderator',
   CONTEST_STATUS_ACTIVE: 'active',
   CONTEST_STATUS_FINISHED: 'finished',
   CONTEST_STATUS_PENDING: 'pending',
@@ -11,6 +12,8 @@ const CONSTANTS = {
   LOGO_CONTEST: 'logo',
   TAGLINE_CONTEST: 'tagline',
   OFFER_STATUS_REJECTED: 'rejected',
+  OFFER_STATUS_ALLOWED: 'allowed',  
+  OFFER_STATUS_FORBIDDEN: 'forbidden',  
   OFFER_STATUS_WON: 'won',
   OFFER_STATUS_PENDING: 'pending',
   STATIC_IMAGES_PATH: '/staticImages/',

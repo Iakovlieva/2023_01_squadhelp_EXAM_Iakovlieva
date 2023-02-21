@@ -60,7 +60,7 @@ const ContestPage = (props) => {
     const contestCreatorId = props.contestByIdStore.contestData.User.id;
     const userId = props.userStore.data.id;
     const contestStatus = props.contestByIdStore.contestData.status;
-    return (contestCreatorId === userId && contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE && offerStatus === CONSTANTS.OFFER_STATUS_PENDING);
+    return (contestCreatorId === userId && contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE && offerStatus === CONSTANTS.OFFER_STATUS_ALLOWED);
   };
 
   const setOfferStatus = (creatorId, offerId, command) => {

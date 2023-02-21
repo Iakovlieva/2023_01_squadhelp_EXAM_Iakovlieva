@@ -11,19 +11,19 @@ const ContestsContainer = (props) => {
     }
   },[props]);
 
-  const scrollHandler = () => {   
-    if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+  const scrollHandler = () => {     
+    if ( Math.ceil(window.innerHeight + document.documentElement.scrollTop) === Math.ceil(document.documentElement.offsetHeight) ) {
       if (props.haveMore) {
         props.loadMore(props.children.length);
       }
     }
   };
 
-  const { isFetching } = props;         
+  const { isFetching } = props;     
   if (!isFetching && props.children.length === 0) {
     return <div className={styles.notFound}>Nothing not found</div>;
   } return (
-    <div>
+    <div style={{width: '90%'}}>
       {props.children}
       {isFetching && <div className={styles.spinnerContainer}><Spinner /></div>}
     </div>

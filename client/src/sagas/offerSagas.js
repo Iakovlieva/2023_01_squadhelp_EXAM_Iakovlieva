@@ -34,17 +34,39 @@ export function* addOfferSaga(action) {
 
 export function* setOfferStatusSaga(action) {
   try {
-    const { data } = yield restController.setOfferStatus(action.data);
-    const offers = yield select((state) => state.contestByIdStore.offers);
-    offers.forEach((offer) => {
-      if (data.status === CONSTANTS.OFFER_STATUS_WON) {
-        offer.status = data.id === offer.id ? CONSTANTS.OFFER_STATUS_WON : CONSTANTS.OFFER_STATUS_REJECTED;
-      } else if (data.id === offer.id) {
-        offer.status = CONSTANTS.OFFER_STATUS_REJECTED;
-      }
-    });
-    yield put({ type: ACTION.CHANGE_STORE_FOR_STATUS, data: offers });
+     const { data } = yield restController.setOfferStatus(action.data);
+    if ((action.data.command==='reject') || (action.data.command==='resolve')){
+        const offers = yield select((state) => state.contestByIdStore.offers);    
+        offers.forEach((offer) => {
+          if (data.status === CONSTANTS.OFFER_STATUS_WON) {
+            offer.status = data.id === offer.id ? CONSTANTS.OFFER_STATUS_WON : CONSTANTS.OFFER_STATUS_REJECTED;
+          } else if (data.id === offer.id) {
+            offer.status = CONSTANTS.OFFER_STATUS_REJECTED;
+          }
+        });
+        yield put({ type: ACTION.CHANGE_STORE_FOR_STATUS, data: offers });
+   } else {
+        const offers = yield select((state) => state.offersList.offers);   
+        offers.forEach((offer) => {
+          if (data.id === offer.id) {
+            offer.status = action.data.command==='allow' ? CONSTANTS.OFFER_STATUS_ALLOWED: CONSTANTS.OFFER_STATUS_FORBIDDEN;
+          }
+        });
+        yield put({ type: ACTION.CHANGE_OFFER_STATUS_FROM_MODERATOR, data: offers });
+   }
   } catch (e) {
     yield put({ type: ACTION.SET_OFFER_STATUS_ERROR, error: e.response });
   }
 }
+
+
+export function* moderatorOffersSaga(action) {
+  yield put({ type: ACTION.GET_OFFERS_ACTION_REQUEST });
+  try {
+    const { data } = yield restController.getModeratorOffers(action.data);
+    yield put({ type: ACTION.GET_OFFERS_ACTION_SUCCESS, data });
+  } catch (e) {
+    yield put({ type: ACTION.GET_OFFERS_ACTION_ERROR, error: e.response });
+  }
+}
+

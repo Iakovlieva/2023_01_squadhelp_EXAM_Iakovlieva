@@ -44,6 +44,12 @@ router.post(
   contestController.getCustomersContests,
 );
 
+router.post(
+  '/getAllOffers',
+  checkToken.checkToken,
+  contestController.getAllOffers,
+);
+
 router.get(
   '/getContestById',
   checkToken.checkToken,
@@ -87,7 +93,7 @@ router.post(
 router.post(
   '/setOfferStatus',
   checkToken.checkToken,
-  basicMiddlewares.onlyForCustomerWhoCreateContest,
+  basicMiddlewares.onlyForCustomerWhoCreateContestOrModerator,
   contestController.setOfferStatus,
 );
 

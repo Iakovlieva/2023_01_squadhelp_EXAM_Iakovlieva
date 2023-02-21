@@ -356,3 +356,15 @@ export const deleteEventError = (error) => {
       error
   }
 }
+
+/***********************/
+
+export const getOffersForModerator = (data) =>({
+  type: ACTION.GET_OFFERS_FOR_MODERATOR,
+  data,
+});
+
+
+export const clearOffersList = () => ({
+  type: ACTION.CLEAR_OFFERS_LIST,
+});
