@@ -368,3 +368,7 @@ export const getOffersForModerator = (data) =>({
 export const clearOffersList = () => ({
   type: ACTION.CLEAR_OFFERS_LIST,
 });
+
+export const clearSetOfferStatusErrorModerator = () => ({
+  type: ACTION.CLEAR_SET_OFFER_STATUS_ERROR_MODERATOR,
+});

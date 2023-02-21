@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   offers: [],
   haveMore: true,
+  setOfferStatusError: null,
 };
 
 function getOffersReducer (state = initialState, action) {  
@@ -47,6 +48,18 @@ function getOffersReducer (state = initialState, action) {
         ...state,
         error: null,
         offers: [],
+      };
+    }
+    case ACTION.SET_OFFER_STATUS_ERROR_MODERATOR: {
+      return {
+        ...state,
+        setOfferStatusError: action.error,
+      };
+    }
+    case ACTION.CLEAR_SET_OFFER_STATUS_ERROR_MODERATOR: {
+      return {
+        ...state,
+        setOfferStatusError: null,
       };
     }
     default:

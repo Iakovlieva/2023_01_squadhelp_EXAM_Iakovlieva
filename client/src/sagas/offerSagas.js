@@ -55,7 +55,11 @@ export function* setOfferStatusSaga(action) {
         yield put({ type: ACTION.CHANGE_OFFER_STATUS_FROM_MODERATOR, data: offers });
    }
   } catch (e) {
-    yield put({ type: ACTION.SET_OFFER_STATUS_ERROR, error: e.response });
+    if ((action.data.command==='reject') || (action.data.command==='resolve')){
+      yield put({ type: ACTION.SET_OFFER_STATUS_ERROR, error: e.response });
+    } else {
+      yield put({ type: ACTION.SET_OFFER_STATUS_ERROR_MODERATOR, error: e.response });
+    }
   }
 }
 

@@ -4,10 +4,12 @@ import ContestsContainer from '../ContestsContainer/ContestsContainer';
 import { getOffersForModerator,
   clearOffersList,
   setOfferStatus,
+  clearSetOfferStatusErrorModerator,
 } from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 import styles from './../CustomerDashboard/CustomerDashboard.module.sass';
 import TryAgain from '../TryAgain/TryAgain';
+import Error from '../Error/Error';
 import OfferBoxModerator from '../../components/OfferBox/OfferBoxModerator';
 
 const ModeratorDashboard = (props) => {
@@ -53,6 +55,7 @@ const ModeratorDashboard = (props) => {
   };
 
   const setOfferStatus = (creatorId, offerId, contestId, command) => {
+    props.clearSetOfferStatusErrorModerator();
     const obj = {
       command,
       offerId,
@@ -69,15 +72,22 @@ const ModeratorDashboard = (props) => {
   };
 
 
-  const { error, haveMore, isShowOnFull, imagePath } = props;
+  const { error, haveMore, setOfferStatusError, clearSetOfferStatusErrorModerator } = props;
+
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.contestsContainer}>
-        {
+      <div className={styles.contestsContainer} style={{flexDirection: 'column', alignItems: 'center'}}>
+                {setOfferStatusError && (
+                  <Error
+                    data={setOfferStatusError.data}
+                    status={setOfferStatusError.status}
+                    clearError={clearSetOfferStatusErrorModerator}
+                  />
+                )}
+                {
                     error
                       ? <TryAgain getData={tryToGetContest()} />
-                      : (
-                        <ContestsContainer 
+                      :<ContestsContainer 
                           isFetching={props.isFetching}
                           loadMore={loadMore}
                           history={props.history}
@@ -85,8 +95,9 @@ const ModeratorDashboard = (props) => {
                         >
                           {setOffersList()}
                         </ContestsContainer>
-                      )
+                      
                 }
+        
       </div>
     </div>
   );
@@ -98,6 +109,7 @@ const mapDispatchToProps = (dispatch) => ({
   getOffers: (data) => dispatch(getOffersForModerator(data)),
   clearOffersList: () => dispatch(clearOffersList()),
   setOfferStatus: (data) => dispatch(setOfferStatus(data)),
+  clearSetOfferStatusErrorModerator: () => dispatch(clearSetOfferStatusErrorModerator()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeratorDashboard);
