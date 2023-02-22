@@ -197,7 +197,7 @@ const Header = (props) => {
                   </li>
                 </ul>
               </div>
-              {props.data && props.data.role !== CONSTANTS.CREATOR
+              {props.data && props.data.role === CONSTANTS.CUSTOMER
                         && <div className={styles.startContestBtn} onClick={startContests}>START CONTEST</div>}
             </div>
           </div>

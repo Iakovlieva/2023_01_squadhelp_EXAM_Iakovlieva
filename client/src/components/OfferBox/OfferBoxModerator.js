@@ -57,12 +57,8 @@ const OfferBoxModerator = (props) => {
     return null;
   };
 
-  const {
-    data
-  } = props;
-
-  console.log(data);
-  const Contest = props.data.Contest;
+  const { data, data: {Contest} } = props;
+  
   return (
     <div className={styles.offerContainer}>
       {offerStatus()}
@@ -84,7 +80,7 @@ const OfferBoxModerator = (props) => {
           <div className={styles.creativeRating}>
             <span className={styles.userScoreLabel}>Creative Rating </span>
             <Rating
-              initialRating={2}
+              initialRating={data.User.rating}
               fractions={2}
               fullSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt="star" />}
               placeholderSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt="star" />}

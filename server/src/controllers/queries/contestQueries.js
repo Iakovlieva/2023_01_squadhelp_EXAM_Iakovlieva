@@ -49,3 +49,12 @@ module.exports.createOffer = async (data) => {
     return result.get({ plain: true });
   }
 };
+
+module.exports.findOffer = async (predicate, transaction) => {
+  const result = await db.Offer.findOne({ where: predicate, transaction });
+  if (!result) {
+    throw new NotFound('offer with this data didn`t exist');
+  } else {
+    return result.get({ plain: true });
+  }
+};

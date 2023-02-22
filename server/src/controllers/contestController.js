@@ -1,10 +1,12 @@
 const db = require('../models');
 const ServerError =require('../errors/ServerError');
+const NotFound = require('../errors/UserNotFoundError');
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants');
+const nodemailer = require('nodemailer');
 
 module.exports.dataForContest = async (req, res, next) => {
   const response = {};
@@ -150,6 +152,32 @@ module.exports.setNewOffer = async (req, res, next) => {
   }
 };
 
+const sendingOfferMail= async( creatormail, text ) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: CONSTANTS.MAIL_ACCOUNT,
+        pass: CONSTANTS.MAIL_PASSWORD,
+      },
+    });
+
+    let mailOptions = {
+      from: CONSTANTS.MAIL_ACCOUNT,
+      to: creatormail,
+      subject: 'Your offer in SquardHelp was unallowed',
+      text: `Your offer - ${text} didn't pass moderation`,
+    };
+
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+      throw new NotFound(`Can't send email`);
+  }
+}
+
 const rejectOffer = async (offerId, creatorId, contestId) => {
   const rejectedOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_REJECTED }, { id: offerId });
@@ -161,18 +189,23 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
 const allowOffer = async (offerId, creatorId, contestId) => {
   const allowedOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_ALLOWED }, { id: offerId });
-    console.log('creatorIdcreatorId',creatorId);
   controller.getNotificationController().emitChangeOfferStatus(creatorId,
     'Someone of yours offers was allowed', contestId);
   return allowedOffer;
 };
 
 const forbidOffer = async (offerId, creatorId, contestId) => {
+  const foundUser = await userQueries.findUser({ id: creatorId });
+  const foundOffer = await contestQueries.findOffer({ id: offerId });
+  const text = (!foundOffer.text) ? foundOffer.originalFileName: foundOffer.text;
+
+  await sendingOfferMail(foundUser.email, text);
+
   const forbiddenOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_FORBIDDEN }, { id: offerId });
   controller.getNotificationController().emitChangeOfferStatus(creatorId,
     'Someone of yours offers was forbidden', contestId);
-  return forbiddenOffer;
+    return forbiddenOffer;
 };
 
 const resolveOffer = async (
@@ -255,16 +288,14 @@ module.exports.setOfferStatus = async (req, res, next) => {
     }
   } else if (req.body.command === 'allow') {
     try {
-      const offer = await allowOffer(req.body.offerId, req.body.creatorId,
-        req.body.contestId);
+      const offer = await allowOffer(req.body.offerId, req.body.creatorId, req.body.contestId);
       res.send(offer);
     } catch (err) {
       next(err);
     }
   } else if (req.body.command === 'forbid') {
     try {
-      const offer = await forbidOffer(req.body.offerId, req.body.creatorId,
-        req.body.contestId);
+      const offer = await forbidOffer(req.body.offerId, req.body.creatorId, req.body.contestId);
       res.send(offer);
     } catch (err) {
       next(err);
@@ -359,6 +390,18 @@ module.exports.getAllOffers = (req, res, next) => {
         },
         ]
       },
+      {
+          model: db.User,
+          required: true,
+          attributes: {
+            exclude: [
+              'password',
+              'role',
+              'balance',
+              'accessToken',
+            ],
+          },
+      },      
       ],
   })
     .then(offers => {
