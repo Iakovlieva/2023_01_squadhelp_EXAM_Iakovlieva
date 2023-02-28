@@ -130,6 +130,7 @@ module.exports.getChat = async (req, res, next) => {
           },
         ],
     });
+    console.log('getChat-----dbMessages>>>>>>>>>>>>>>>>>>',dbMessages);  
     const messages = [];
 
     dbMessages.forEach( mes => {
@@ -282,7 +283,10 @@ module.exports.blackList = async (req, res, next) => {
       const newflags = conversation.blackList;
       newflags[req.body.participants.indexOf(req.tokenData.userId)] =  req.body.blackListFlag;
 
-      const { dataValues: chat } = await conversation.update({ blackList: newflags }, { returning: true });         
+      const [updatedCount, [{dataValues: chat}]] = await db.Conversation.update({ blackList: newflags },{ where: { id: conversation.id, participant1:participants[0], participant2:participants[1] } , returning: true });                      
+      if (updatedCount !== 1) {
+        throw new ServerError('cannot update Chat');
+      }         
       chat.participants = [participants[0], participants[1]];
       delete chat.participant1;
       delete chat.participant2;
@@ -312,7 +316,12 @@ module.exports.favoriteChat = async (req, res, next) => {
       const conversation= await db.Conversation.findOne( { where: { participant1:participants[0], participant2:participants[1] } } );  
       const newflags = conversation.favoriteList;
       newflags[req.body.participants.indexOf(req.tokenData.userId)] =  req.body.favoriteFlag; 
-      const { dataValues: chat } = await conversation.update({ favoriteList: newflags }, { returning: true });          
+      const [updatedCount, [{dataValues: chat}]] = await db.Conversation.update({ favoriteList: newflags },{ where: { id: conversation.id, participant1:participants[0], participant2:participants[1] } , returning: true });        
+      if (updatedCount !== 1) {
+        throw new ServerError('cannot update Chat');
+      }       
+      console.log('favoriteChat-----result>>111111>',newflags,'>>>>>>>>>>>>>>>',chat);      
+    //  const chat = result.dataValues;   
       chat.participants = [participants[0], participants[1]];
      delete chat.participant1;
      delete chat.participant2;
@@ -441,7 +450,7 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
           },
         ] });  
 
-        if (!catalog2) {
+        if (!updatedCatalog) {
           throw new ServerError(`cannot update chat's Catalog`);
         }    
         //req.body.chatId
