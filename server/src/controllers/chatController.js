@@ -201,7 +201,6 @@ module.exports.favoriteChat = async (req, res, next) => {
 
       res.send(chat);
   } catch (err) {
-    console.log(err);
     res.send(err);
   }
 };
@@ -214,7 +213,6 @@ const catalogInformation = async (catalogId, userId) => {
     include: [
       {
         model: db.Conversation,
-        required: true,
         attributes: ['id'],
         },
       ] 
@@ -254,7 +252,6 @@ module.exports.updateNameCatalog = async (req, res, next) => {
       include: [
         {
           model: db.Conversation,
-          required: true,
           attributes: ['id'],
           },
         ] 
@@ -279,7 +276,6 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
       include: [
         {
           model: db.Conversation,
-          required: true,
           attributes: ['id'],
           },
         ] 
@@ -343,7 +339,6 @@ module.exports.getCatalogs = async (req, res, next) => {
       include: [
         {
           model: db.Conversation,
-          required: true,
           attributes: ['id'],
           },
         ] 
