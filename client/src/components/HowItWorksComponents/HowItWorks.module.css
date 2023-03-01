@@ -1,0 +1,87 @@
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.howWorkSection {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  padding: 0 5vw 5vh 5vw;
+  margin: 0 auto;
+}
+
+.howWorkArticle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: flex-start; 
+  max-width: 55%;
+}
+ 
+.howWorkArticle>span{
+  color: #377dff;
+  font-size: 12px;
+  background-color: rgb(55,125,255,10%);
+  padding: 0.6rem;  
+  border-radius: 3rem;
+}
+.howWorkArticle>p{  
+  color: #77838f;
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 1rem 0;
+}
+
+.howWorkSection>img{
+  max-width: 45%;
+  object-fit: contain;
+}
+
+.howWorkButton{
+  width: 100px;
+  color: white;
+  background-color: #377dff;
+  padding: 1rem 1.5rem;
+  border-radius: 3rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.howWorkButton:hover{
+  transition: all 0.2s ease-in-out;
+  transform: translate(0, -3px);
+  box-shadow: 0 4px 11px rgb(55 125 255 / 35%);
+}    
+
+
+@media screen and (max-width: 1200px) {
+  .howWorkSection {
+    max-width: calc( 100% - 3rem);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .howWorkArticle {
+    max-width: 100%;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .howWorkSection>img{
+    max-width: 0%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .howWorkButton{
+    width: 85%;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .howWorkButton>span{
+    padding:0 10px;
+  }
+}
