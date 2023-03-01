@@ -4,9 +4,20 @@ h1 {
   margin: 1rem 0;
 }
 
-.howWorkSection {
+.wrapperFlexRowSpaceBetween{
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+}
+
+.wrapperFlexColumnCenter{
+  display: flex;
+  flex-direction: column;      
+  justify-content: center;
+  align-items: center; 
+}
+
+.widthAndPadding{
   max-width: 1200px;
   padding: 0 5vw 5vh 5vw;
   margin: 0 auto;
@@ -27,6 +38,7 @@ h1 {
   padding: 0.6rem;  
   border-radius: 3rem;
 }
+
 .howWorkArticle>p{  
   color: #77838f;
   font-size: 18px;
@@ -34,12 +46,12 @@ h1 {
   margin: 1rem 0;
 }
 
-.howWorkSection>img{
+.howWorkArticle ~ img{
   max-width: 45%;
   object-fit: contain;
 }
 
-.howWorkButton{
+.PlayVideoButton{
   width: 100px;
   color: white;
   background-color: #377dff;
@@ -51,7 +63,7 @@ h1 {
   justify-content: space-between;
 }
 
-.howWorkButton:hover{
+.PlayVideoButton:hover{
   transition: all 0.2s ease-in-out;
   transform: translate(0, -3px);
   box-shadow: 0 4px 11px rgb(55 125 255 / 35%);
@@ -59,7 +71,7 @@ h1 {
 
 
 @media screen and (max-width: 1200px) {
-  .howWorkSection {
+  .widthAndPadding {
     max-width: calc( 100% - 3rem);
   }
 }
@@ -70,18 +82,18 @@ h1 {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
-  .howWorkSection>img{
+  .howWorkArticle ~ img{
     max-width: 0%;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .howWorkButton{
+  .PlayVideoButton{
     width: 85%;
     justify-content: center;
     margin: 0 auto;
   }
-  .howWorkButton>span{
-    padding:0 10px;
+  .PlayVideoButton>span{
+    padding: 0 10px;
   }
 }
