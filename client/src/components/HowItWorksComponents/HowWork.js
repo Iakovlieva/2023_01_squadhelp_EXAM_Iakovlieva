@@ -7,10 +7,10 @@ const HowWork = () => {
     return (
         <section className={classNames(styles.wrapperFlexRowSpaceBetween, styles.widthAndPadding)}>
             <article className={styles.howWorkArticle}>
-                <span>World's #1 Naming Platform</span>
+                <span className={classNames(styles.hintButton, styles.radius3Rem )}>World's #1 Naming Platform</span>
                 <h1>How Does Squadhelp Work?</h1>
-                <p>Squadhelp helps you come up with a great name for your business by combining the power of crowdsourcing with sophisticated technology and Agency-level validation services.</p>
-                <a href="# " className={styles.PlayVideoButton}><span class="fas fa-play mr-2"/> Play Video</a>
+                <p className={styles.advertisingText}>Squadhelp helps you come up with a great name for your business by combining the power of crowdsourcing with sophisticated technology and Agency-level validation services.</p>
+                <a href="# " className={classNames(styles.BlueButton, styles.radius3Rem)}><span class="fas fa-play mr-2"/> Play Video</a>
             </article>
             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/01_how_work.png`} />
         </section>

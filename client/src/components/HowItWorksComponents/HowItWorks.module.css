@@ -1,7 +1,16 @@
-h1 {
-  font-size: 40px;
+h1{
+  font-size: 2.5rem;
   font-weight: 700;
   margin: 1rem 0;
+}
+
+h2{
+  font-size: 2rem;
+}
+
+h3{
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .wrapperFlexRowSpaceBetween{
@@ -10,20 +19,34 @@ h1 {
   justify-content: space-between;
 }
 
-.wrapperFlexColumnCenter{
+.wrapperFlexColumnStartCenter{
   display: flex;
   flex-direction: column;      
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center; 
 }
 
 .widthAndPadding{
   max-width: 1200px;
-  padding: 0 5vw 5vh 5vw;
+  padding: 5vh 5vw;
   margin: 0 auto;
 }
 
-.howWorkArticle {
+.radius3Rem{
+  border-radius: 3rem;
+}
+
+.radius03Rem{
+  border-radius: 0.3rem;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1.5rem;   
+}
+
+.howWorkArticle{
   display: flex;
   flex-direction: column;
   justify-content: center; 
@@ -31,19 +54,19 @@ h1 {
   max-width: 55%;
 }
  
-.howWorkArticle>span{
+.hintButton{
   color: #377dff;
-  font-size: 12px;
+  font-size: 0.8rem;
   background-color: rgb(55,125,255,10%);
   padding: 0.6rem;  
-  border-radius: 3rem;
 }
 
-.howWorkArticle>p{  
+.advertisingText{  
   color: #77838f;
-  font-size: 18px;
-  line-height: 1.5;
+  font-size: 1.1rem;
+  line-height: 2rem;
   margin: 1rem 0;
+  text-align: center;
 }
 
 .howWorkArticle ~ img{
@@ -51,23 +74,37 @@ h1 {
   object-fit: contain;
 }
 
-.PlayVideoButton{
-  width: 100px;
+.BlueButton{
   color: white;
   background-color: #377dff;
   padding: 1rem 1.5rem;
-  border-radius: 3rem;
   text-decoration: none;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-between;  
+  
 }
 
-.PlayVideoButton:hover{
+.BlueButton>span{
+  padding: 0 0.6rem;
+}
+
+.BlueButton:hover{
   transition: all 0.2s ease-in-out;
   transform: translate(0, -3px);
   box-shadow: 0 4px 11px rgb(55 125 255 / 35%);
-}    
+}  
+
+.wayToUseCard{
+    text-align: center;
+    border: 1px solid rgb(231, 234, 243);
+    padding: 10% 5% 20% 5%;
+}
+
+.wayToUseCard>img{
+  width: 5rem;
+  padding: 1.5rem;
+}
 
 
 @media screen and (max-width: 1200px) {
@@ -79,21 +116,31 @@ h1 {
 @media screen and (max-width: 992px) {
   .howWorkArticle {
     max-width: 100%;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
   }
   .howWorkArticle ~ img{
     max-width: 0%;
   }
 }
 
+@media screen and (max-width: 770px) {
+  .grid{
+    grid-template-columns: repeat(1, 1fr); 
+    grid-gap: 2rem;
+  }
+  
+  .wayToUseCard>img{
+    width: 5rem;
+    padding: 0;
+    padding-bottom: 1rem;
+  }
+}
+
+
+
 @media screen and (max-width: 480px) {
-  .PlayVideoButton{
+  .BlueButton{
     width: 85%;
     justify-content: center;
     margin: 0 auto;
-  }
-  .PlayVideoButton>span{
-    padding: 0 10px;
   }
 }
