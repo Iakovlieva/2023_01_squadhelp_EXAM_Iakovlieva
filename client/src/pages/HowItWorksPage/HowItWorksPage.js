@@ -8,9 +8,7 @@ import LauncingContest from '../../components/HowItWorksComponents/LauncingConte
 import ReadyToStart from '../../components/HowItWorksComponents/ReadyToStart';
 import StarsSection from '../../components/HowItWorksComponents/StarsSection';
 import HaveQuestions from '../../components/HowItWorksComponents/HaveQuestions';
-
-
-import classNames from 'classnames';
+import FeaturedIn from '../../components/HowItWorksComponents/FeaturedIn';
 
 
 const HowItWorksPage = (props) => {
@@ -25,6 +23,7 @@ const HowItWorksPage = (props) => {
           <ReadyToStart />
           <StarsSection />
           <HaveQuestions />
+          <FeaturedIn />
           <Footer />
           
         </div>                    

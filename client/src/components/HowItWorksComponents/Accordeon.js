@@ -26,16 +26,39 @@ const Accordeon = (props) =>{
         }
     }
 
+    const arrToAnswer = (answer) => {
+        if ( Array.isArray(answer) ){ 
+        return answer.map((elem, index)=>{
+            if ( Array.isArray(elem) ) {
+                return elem.map((lipart, index)=>{
+                   return (
+                        <li key={index}>{arrToAnswer(lipart)}</li>
+                    )
+                });
+            } else if (typeof elem === 'string') {
+                return elem;
+            } else {
+                return (
+                    <a href={elem.link} key={index}>{elem.text}</a>
+                )
+            }
+        });
+        } else if (typeof answer === 'string') {
+            return answer;
+        } else {
+            return (<a href={answer.link}>{answer.text}</a>); 
+        }
+    }  
+
     const arrToAccordeon = () => {
         return props.information.map((elem, index)=>{
              return (  
                     <details className={classNames(styles.faqElement, styles.wrapperFlexColumnStartCenter, styles.radius03Rem)} key={index}>
                     <summary className={styles.faqQuestion}>{elem.question}</summary>
-                        <p className={styles.faqAnswer}>{elem.answer}</p>
+                        <p className={styles.faqAnswer}>{arrToAnswer(elem.answer)}</p>
                     </details>
             );
-        });
-        
+        });   
     }  
 
 return (

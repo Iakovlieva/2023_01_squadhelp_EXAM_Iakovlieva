@@ -449,6 +449,10 @@ a{
 .leftWhitePart a{
   color:  #377dff;
 }
+.leftWhitePart>div:last-child{
+  border-top: 1px solid rgba(30,32,34,.2);
+  padding-top: 1rem;
+}
 
 
 .rightBluePart{
@@ -475,11 +479,23 @@ a{
   width: 1.1rem;
 }
 
+.featuredImages{
+  border-top: 1px solid rgba(30,32,34,.2);
+  width: 70%;
+}
+.featuredImages img{
+  max-width: 7rem;
+  padding: 1rem 2rem;
+  opacity: 60%;
+}
 
 @media screen and (max-width: 1200px) {
   .widthAndPadding{
     max-width: calc( 100% - 3rem);
     margin: 0 auto;
+  }
+  .featuredImages{
+    justify-content: center;
   }
 }
 
@@ -487,6 +503,7 @@ a{
   .column992{
     flex-direction: column;
   }  
+
   .columnReverse992{
     flex-direction: column-reverse;
   }
@@ -514,9 +531,20 @@ a{
   .leftWhitePart{
     margin: 0;
   }
+  
 }
 
 @media screen and (max-width: 770px) {
+  .column770{
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .featuredImages{
+    width: 100%;
+  }
+
   .grid{
     grid-template-columns: repeat(1, 1fr); 
     grid-gap: 2rem;
