@@ -30,11 +30,12 @@ const Accordeon = (props) =>{
         if ( Array.isArray(answer) ){ 
         return answer.map((elem, index)=>{
             if ( Array.isArray(elem) ) {
-                return elem.map((lipart, index)=>{
+                return (<ul>{elem.map((lipart, index)=>{
                    return (
                         <li key={index}>{arrToAnswer(lipart)}</li>
                     )
-                });
+                })}
+                </ul>);
             } else if (typeof elem === 'string') {
                 return elem;
             } else {

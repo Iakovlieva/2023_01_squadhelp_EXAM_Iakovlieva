@@ -26,6 +26,7 @@ h4{
 
 a{
   text-decoration: none;
+  color: #377dff;
 }
 
 .wrapperFlexRowSpaceBetween{
@@ -352,6 +353,11 @@ a{
   line-height: 1.4rem;  
   overflow: hidden;
   animation: sweep 2s ease-in-out;
+}
+.faqAnswer ul{
+  list-style: disc;
+  padding-left: 1rem;
+  margin-left: 1rem;
 }
 
 .faqElement[open] .faqAnswer{ 

@@ -248,12 +248,12 @@ const CONSTANTS = {
       {
         question: `Can anyone join your platform?`,
         answer: [
-          `We are open to anyone to signup. However, we have an extensive `,
+          `We are open to anyone to signup. However, we have an extensive "`,
           {
             link: `https://helpdesk.squadhelp.com/en/articles/91702-percentile-ranking-score`,
             text: `Quality Scoring`
           },
-          ` process which ensures that high quality creatives have the ability to continue to participate in the platform. On the other hand, we limit the participation from those creatives who do not consistently receive high ratings.`
+          `" process which ensures that high quality creatives have the ability to continue to participate in the platform. On the other hand, we limit the participation from those creatives who do not consistently receive high ratings.`
         ]
       },
       {

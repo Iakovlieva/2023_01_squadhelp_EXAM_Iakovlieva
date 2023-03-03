@@ -25,8 +25,12 @@ const LauncingContest = () => {
                 </div>
                 <div className={classNames(styles.wrapperFlexColumnStartCenter, styles.alignFlexStart)} id="managed">
                     <h2>Managed Contests</h2>
-                    <AccordeonUseState information={CONSTANTS.ACCORDEONITEMS.BUYING_FROM_MARKETPLACE}/>
+                    <Accordeon information={CONSTANTS.ACCORDEONITEMS.MANAGED_CONTESTS}/>
                 </div>
+                <div className={classNames(styles.wrapperFlexColumnStartCenter, styles.alignFlexStart)} id="creatives">
+                    <h2>For Creatives</h2>
+                    <Accordeon information={CONSTANTS.ACCORDEONITEMS.FOR_CREATIVES}/>
+                </div>                 
             </article>
       </section>
     );
