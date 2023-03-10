@@ -178,6 +178,11 @@ export const setNewCreatorFilter = (filter) => ({
   filter,
 });
 
+export const setNewModeratorFilter = (filter) => ({
+  type: ACTION.SET_NEW_MODERATOR_FILTER,
+  filter,
+});
+
 export const setPreviewChatMode = (mode) => ({
   type: ACTION.SET_CHAT_PREVIEW_MODE,
   mode,

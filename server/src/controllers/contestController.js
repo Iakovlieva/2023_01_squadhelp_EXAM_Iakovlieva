@@ -245,6 +245,8 @@ const resolveOffer = async (
   тоже чтобы были отклоненными, т.е. "все что не подтверждено - отклонено"
 
   по идее можно было оставить фильтр на "алоуед", но тогда у модератора бы "болтались" оферы на рассмотрении, которые уже не нужны
+
+    //после рефакторинга и добавления фильтра на активные/завершенные контесты - стала эта часть уже не так актуальна
    */
   transaction.commit();
   const arrayRoomsId = [];
@@ -381,6 +383,7 @@ module.exports.getAllOffers = (req, res, next) => {
     include: [
       {
         model: db.Contest,
+        where: { status: req.headers.status },
         include: [
           {
           model: db.User,

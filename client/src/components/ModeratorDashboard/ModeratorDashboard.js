@@ -5,7 +5,9 @@ import { getOffersForModerator,
   clearOffersList,
   setOfferStatus,
   clearSetOfferStatusErrorModerator,
+  setNewModeratorFilter,
 } from '../../actions/actionCreator';
+import classNames from 'classnames';
 import CONSTANTS from '../../constants';
 import styles from './../CustomerDashboard/CustomerDashboard.module.sass';
 import TryAgain from '../TryAgain/TryAgain';
@@ -21,11 +23,15 @@ const ModeratorDashboard = (props) => {
     }
   },[]);
 
+  useEffect(() => {
+    getOffers();
+  },[props.moderatorFilter]);
 
   const loadMore = (startFrom) => {
     props.getOffers({
       limit: 8,
       offset: startFrom,
+      contestStatus: props.moderatorFilter,
     });
   };
 
@@ -33,6 +39,7 @@ const ModeratorDashboard = (props) => {
     props.getOffers({
       limit: 8,
       offset: 0,
+      contestStatus: props.moderatorFilter,
         });
   };
 
@@ -74,9 +81,40 @@ const ModeratorDashboard = (props) => {
 
   const { error, haveMore, setOfferStatusError, clearSetOfferStatusErrorModerator } = props;
 
+  const { moderatorFilter } = props;
+
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.contestsContainer} style={{flexDirection: 'column', alignItems: 'center'}}>
+        <div className={styles.filterContainer}>
+          <div
+            onClick={() => props.newFilter(CONSTANTS.CONTEST_STATUS_ACTIVE)}
+            className={classNames({
+              [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_ACTIVE === moderatorFilter,
+              [styles.filter]: CONSTANTS.CONTEST_STATUS_ACTIVE !== moderatorFilter,
+            })}
+          >
+            Active Contests
+          </div>
+          <div
+            onClick={() => props.newFilter(CONSTANTS.CONTEST_STATUS_FINISHED)}
+            className={classNames({
+              [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_FINISHED === moderatorFilter,
+              [styles.filter]: CONSTANTS.CONTEST_STATUS_FINISHED !== moderatorFilter,
+            })}
+          >
+            Completed contests
+          </div>
+          <div
+            onClick={() => props.newFilter(CONSTANTS.CONTEST_STATUS_PENDING)}
+            className={classNames({
+              [styles.activeFilter]: CONSTANTS.CONTEST_STATUS_PENDING === moderatorFilter,
+              [styles.filter]: CONSTANTS.CONTEST_STATUS_PENDING !== moderatorFilter,
+            })}
+          >
+            Inactive contests
+          </div>
+        </div>
+        <div className={styles.contestsContainer}>
                 {setOfferStatusError && (
                   <Error
                     data={setOfferStatusError.data}
@@ -98,7 +136,7 @@ const ModeratorDashboard = (props) => {
                       
                 }
         
-      </div>
+        </div>
     </div>
   );
 }
@@ -110,6 +148,7 @@ const mapDispatchToProps = (dispatch) => ({
   clearOffersList: () => dispatch(clearOffersList()),
   setOfferStatus: (data) => dispatch(setOfferStatus(data)),
   clearSetOfferStatusErrorModerator: () => dispatch(clearSetOfferStatusErrorModerator()),
+  newFilter: (filter) => dispatch(setNewModeratorFilter(filter)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModeratorDashboard);
