@@ -1,19 +1,29 @@
 import React from 'react';
 import { Field } from 'formik';
+import { useField } from 'formik';
 
-const FieldFileInput = ({ classes, ...rest }) => {
+const FieldFileInput = (props) => {
+  const [ field, meta, helpers] = useField(props.name);  
+  const { value } = meta;
+  const { setValue } = helpers;  
+
+
+  const { classes, ...rest } = props;
   const {
     fileUploadContainer, labelClass, fileNameClass, fileInput,
   } = classes;
 
+
+  const onChange = (e) => {       
+    const file = e.target.files[0]; 
+    setValue(file);
+  };
+
   return (
     <Field name={rest.name}>
       {(props) => {
-        const {
-          field,
-        } = props;
 
-        const getFileName = () => {
+        const getFileName = () => {       
           if (props.field.value) {
             return props.field.value.name;
           }
@@ -29,10 +39,10 @@ const FieldFileInput = ({ classes, ...rest }) => {
               {getFileName()}
             </span>
             <input
-              {...field}
               className={fileInput}
               id="fileInput"
               type="file"
+              onChange={onChange}
             />
           </div>
         );
