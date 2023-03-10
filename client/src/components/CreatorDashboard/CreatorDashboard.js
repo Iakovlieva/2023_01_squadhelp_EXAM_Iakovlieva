@@ -77,8 +77,8 @@ class CreatorDashboard extends React.Component {
 
     changePredicate = ({ name, value }) => {
       const { creatorFilter } = this.props;
-      this.props.newFilter({ [name]: value === 'Choose industry' ? null : value });
-      this.parseParamsToUrl({ ...creatorFilter, ...{ [name]: value === 'Choose industry' ? null : value } });
+      this.props.newFilter({ [name]: value === 'Choose industry' ? '' : value });
+      this.parseParamsToUrl({ ...creatorFilter, ...{ [name]: value === 'Choose industry' ? '' : value } });
     };
 
     parseParamsToUrl = (creatorFilter) => {
