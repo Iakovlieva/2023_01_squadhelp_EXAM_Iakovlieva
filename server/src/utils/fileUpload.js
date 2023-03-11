@@ -1,24 +1,11 @@
-const fs = require('fs');
-const path = require('path');
 const multer = require('multer');
 const ServerError = require('../errors/ServerError');
-const env = process.env.NODE_ENV || 'development';
-const devFilePath = path.resolve(__dirname, '../../public/images');
+const { IMAGES_PATH } = require('../config/path.config');
 
-
-const filePath = env === 'production'
-  ? '/var/www/html/images/'
-  : devFilePath;
-
-if (!fs.existsSync(filePath)) {
-  fs.mkdirSync(filePath, {
-    recursive: true,
-  });
-} 
 
 const storage = multer.diskStorage({
   destination (req, file, cb) {
-    cb(null, filePath);
+    cb(null, IMAGES_PATH);
   },
   filename (req, file, cb) {
     cb(null, `${Date.now()}.${file.originalname}`)

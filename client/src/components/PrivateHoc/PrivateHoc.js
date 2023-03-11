@@ -13,7 +13,7 @@ const PrivateHoc = (Component, props) => {
   class Hoc extends React.Component {
     componentDidMount() {
       if (!this.props.data) {
-        this.props.getUser(this.props.history.replace);
+        this.props.getUser(this.props.history.replace('/login'));
       }
     }
 
