@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   offers: [],
   haveMore: true,
+  moderatorFilter: CONSTANTS.CONTEST_STATUS_ACTIVE,
   setOfferStatusError: null,
 };
 
@@ -60,6 +61,13 @@ function getOffersReducer (state = initialState, action) {
       return {
         ...state,
         setOfferStatusError: null,
+      };
+    }
+    case ACTION.SET_NEW_MODERATOR_FILTER: {
+      return {
+        ...initialState,
+        isFetching: false,
+        moderatorFilter: action.filter,
       };
     }
     default:

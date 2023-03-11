@@ -168,8 +168,8 @@ const sendingOfferMail= async( creatormail, text ) => {
     let mailOptions = {
       from: CONSTANTS.MAIL_ACCOUNT,
       to: creatormail,
-      subject: 'Your offer in SquardHelp was unallowed',
-      text: `Your offer - ${text} didn't pass moderation`,
+      subject: 'Your offer in SquardHelp was moderated',
+      text: `Your offer - ${text}`,
     };
 
     await transporter.sendMail(mailOptions);
@@ -187,6 +187,12 @@ const rejectOffer = async (offerId, creatorId, contestId) => {
 };
 
 const allowOffer = async (offerId, creatorId, contestId) => {
+  const foundUser = await userQueries.findUser({ id: creatorId });
+  const foundOffer = await contestQueries.findOffer({ id: offerId });
+  const offerInfo = (!foundOffer.text) ? foundOffer.originalFileName: foundOffer.text;
+
+  await sendingOfferMail(foundUser.email, `${offerInfo} succesfully moderated` );
+
   const allowedOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_ALLOWED }, { id: offerId });
   controller.getNotificationController().emitChangeOfferStatus(creatorId,
@@ -197,9 +203,9 @@ const allowOffer = async (offerId, creatorId, contestId) => {
 const forbidOffer = async (offerId, creatorId, contestId) => {
   const foundUser = await userQueries.findUser({ id: creatorId });
   const foundOffer = await contestQueries.findOffer({ id: offerId });
-  const text = (!foundOffer.text) ? foundOffer.originalFileName: foundOffer.text;
+  const offerInfo = (!foundOffer.text) ? foundOffer.originalFileName: foundOffer.text;
 
-  await sendingOfferMail(foundUser.email, text);
+  await sendingOfferMail(foundUser.email, `${offerInfo} didn't pass moderation` );
 
   const forbiddenOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_FORBIDDEN }, { id: offerId });
@@ -239,6 +245,8 @@ const resolveOffer = async (
   тоже чтобы были отклоненными, т.е. "все что не подтверждено - отклонено"
 
   по идее можно было оставить фильтр на "алоуед", но тогда у модератора бы "болтались" оферы на рассмотрении, которые уже не нужны
+
+    //после рефакторинга и добавления фильтра на активные/завершенные контесты - стала эта часть уже не так актуальна
    */
   transaction.commit();
   const arrayRoomsId = [];
@@ -375,6 +383,7 @@ module.exports.getAllOffers = (req, res, next) => {
     include: [
       {
         model: db.Contest,
+        where: { status: req.headers.status },
         include: [
           {
           model: db.User,
