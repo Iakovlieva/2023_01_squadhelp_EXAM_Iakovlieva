@@ -33,4 +33,5 @@ module.exports = {
   CHANGE_BLOCK_STATUS: 'CHANGE_BLOCK_STATUS',
   MAIL_ACCOUNT: 'squardmoderator@gmail.com',
   MAIL_PASSWORD: 'xrglnlqshpxohqpo',
+  LOGFILENAME: 'logfile.txt'
 };
