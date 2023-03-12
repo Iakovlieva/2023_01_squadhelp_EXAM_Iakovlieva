@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from "../ContestForm/ContestForm.module.sass";
+import styles from "../EventsForm/Events.module.sass";
 import moment from 'moment';
 
 
@@ -45,24 +45,25 @@ const EventsItem = (props) => {
   const remainingTime = `${days} ${hours} ${minutes} ${seconds}`;
 
   const timeToNotificate = timeLeft- deadline*60*1000;
+  const deadlineTime = Date.parse(eventDate)-deadline*60*1000;
   
   let bgColor = timeToNotificate > 0 ? "#eee" : timeLeft > 0 ? "orange" : "red";
   
-  const procentToNotification=100-Math.ceil(timeToNotificate*100/maxGreenValue)+'%';
-  
+  const procentToNotification=100-Math.ceil(timeToNotificate*100/maxGreenValue)+'%';  
+
 
   return (
     <li>
       <div className={styles.eventListItem}  style={{backgroundColor: bgColor }}>        
-        {timeToNotificate>0 && <div className={styles.eventListItemGreen} style={{width: procentToNotification}} >.</div>}
           <div>
             <span>{eventName}</span>
-            <span> ( {moment(eventDate).format('DD-MM-YYYY HH:mm')} )</span>             
-          </div>
-          <div className={styles.eventListItemTiming}>
+            <span className={styles.eventListItemTiming}> (EventTime: {moment(eventDate).format('DD.MM.YYYY HH:mm')} DeadlineTime: {moment(deadlineTime).format('DD.MM.YYYY HH:mm')})</span>             
+          </div>      
+          <div className={styles.eventRemainingTime}>
               <span> { timeToNotificate>0 && ( remainingTime ) }</span>           
               <button onClick={() => props.delete(id)}>X</button>                               
-          </div>               
+          </div>   
+          {timeToNotificate>0 && <div className={styles.eventListItemGreen} style={{width: procentToNotification}} >.</div>}                          
       </div>
     </li>        
   );
