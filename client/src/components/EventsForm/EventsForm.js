@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {Formik, Form, Field} from 'formik';
 import styles from "../ContestForm/ContestForm.module.sass";
+import eventstyles from "./Events.module.sass";
 import FormInput from '../FormInput/FormInput';
 import SelectInput from '../SelectInput/SelectInput';
 import Schems from '../../validators/validationSchems';
@@ -28,8 +29,8 @@ const EventsForm = (props) => {
             validationSchema={Schems.EventSchema}
         >
             {(props) => (
-                <div className={styles.eventForm}>
-                    <div className={styles.eventInfo}> 
+                <div className={eventstyles.eventForm}>
+                    <div className={eventstyles.eventInfo}> 
                         <h2>Add new remaining</h2>
                     </div> 
                     <Form className={styles.formContainer}>
@@ -85,7 +86,7 @@ const EventsForm = (props) => {
                                 valueArray={deadlineTimesValues}                
                             />
                         </div>
-                        <button className={styles.buttonEventContainer} type="submit">Create</button>
+                        <button className={eventstyles.buttonEventContainer} type="submit">Create</button>
                     
                    
                                                                  
