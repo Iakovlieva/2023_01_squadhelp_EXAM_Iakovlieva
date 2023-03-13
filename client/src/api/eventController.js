@@ -7,7 +7,6 @@ export const getEvents = async () => {
 export const createEvent = async (eventData) => {
     const eventsList = await JSON.parse(localStorage.getItem('EventsList')) || [];    
     const id = eventsList.length>0 ? eventsList[eventsList.length-1].id + 1 : 1;
-    const newEvent = {...eventData, id};
     eventsList.push({...eventData, id});         
     localStorage.setItem('EventsList',JSON.stringify(eventsList));            
     return {...eventData, id};

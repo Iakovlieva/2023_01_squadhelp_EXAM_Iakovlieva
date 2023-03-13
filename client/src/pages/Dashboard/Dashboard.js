@@ -15,6 +15,7 @@ const Dashboard = (props) => {
         case CONSTANTS.CUSTOMER: {return (<CustomerDashboard history={history} match={props.match} />)}
         case CONSTANTS.CREATOR : {return (<CreatorDashboard history={history} match={props.match} />)}
         case CONSTANTS.MODERATOR: {return( <ModeratorDashboard history={history} match={props.match} />)}
+        default: return null
     }
   }
 

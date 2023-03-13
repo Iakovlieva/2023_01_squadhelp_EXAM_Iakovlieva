@@ -10,8 +10,8 @@ const ReadyToStart = () => {
             <h2>Ready to get started?</h2>
             <p className={styles.advertisingText}>Fill out your contest brief and begin receiving custom name suggestions within minutes.</p>
             <Link  className={classNames(styles.HowWorksButton, styles.blueTextWhiteBack, styles.radius03Rem )} to="/startContest">Start A Contest</Link>
-            <img className={styles.leftPart} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/05_left_part.png`} />
-            <img className={styles.rightPart} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/05_right_part.png`} />                
+            <img className={styles.leftPart} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/05_left_part.png`} alt="leftpart"/>
+            <img className={styles.rightPart} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/05_right_part.png`} alt="rightpart"/>                
          </section>
     );
 }

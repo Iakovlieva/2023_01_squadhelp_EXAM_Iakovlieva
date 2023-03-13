@@ -7,11 +7,11 @@ const HowNaming = () => {
     return (
         <section className={classNames(styles.wrapperFlexColumnStartCenter, styles.widthAndBorder)}>
             <article className={styles.wrapperFlexColumnStartCenter}>
-                <img className={styles.cardImg} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/03_how_naming_work.png`} />                  
+                <img className={styles.cardImg} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/03_how_naming_work.png`} alt="hownaming"/>                  
                 <h2>How Do Naming Contests Work?</h2>
             </article>
             <article className={classNames(styles.wrapperFlexRowSpaceBetween, styles.columnReverse992, styles.widthAndPadding)}>
-                <img className={classNames(styles.withNoutImage, styles.allWidth992)} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/04_with_nout.png`}/>
+                <img className={classNames(styles.withNoutImage, styles.allWidth992)} src={`${CONSTANTS.STATIC_IMAGES_PATH}how_it_works/04_with_nout.png`} alt="withnout"/>
                 <ul className={classNames(styles.namingList)}>
                     <li className={classNames(styles.namingListItem, styles.radius03Rem)}>
                         <span>1.</span><p className={styles.advertisingText}>Fill out your Naming Brief and begin receiving name ideas in minutes</p>

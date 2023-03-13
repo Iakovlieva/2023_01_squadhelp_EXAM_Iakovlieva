@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {Formik, Form, Field} from 'formik';
+import React from 'react';
+import { Formik, Form } from 'formik';
 import styles from "../ContestForm/ContestForm.module.sass";
 import eventstyles from "./Events.module.sass";
 import FormInput from '../FormInput/FormInput';

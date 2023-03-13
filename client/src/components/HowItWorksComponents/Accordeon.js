@@ -19,7 +19,7 @@ const Accordeon = (props) =>{
       if (!event.target.open) return;
         var details = event.target.parentNode.children;
         for( let i = 0; i < details.length; i++ ) {
-          if (details[i].tagName != "DETAILS" || !details[i].hasAttribute('open') || event.target == details[i]) {
+          if (details[i].tagName !== "DETAILS" || !details[i].hasAttribute('open') || event.target === details[i]) {
              continue;
           }
           details[i].removeAttribute("open");
@@ -30,7 +30,7 @@ const Accordeon = (props) =>{
         if ( Array.isArray(answer) ){ 
         return answer.map((elem, index)=>{
             if ( Array.isArray(elem) ) {
-                return (<ul>{elem.map((lipart, index)=>{
+                return (<ul key={index*10}>{elem.map((lipart, index)=>{
                    return (
                         <li key={index}>{arrToAnswer(lipart)}</li>
                     )
@@ -56,7 +56,7 @@ const Accordeon = (props) =>{
              return (  
                     <details className={classNames(styles.faqElement, styles.wrapperFlexColumnStartCenter, styles.radius03Rem)} key={index}>
                     <summary className={styles.faqQuestion}>{elem.question}</summary>
-                        <p className={styles.faqAnswer}>{arrToAnswer(elem.answer)}</p>
+                        <div className={styles.faqAnswer}>{arrToAnswer(elem.answer)}</div>
                     </details>
             );
         });   

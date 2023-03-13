@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import EventsItem from '../EventsItem/EventsItem';
 import styles from "../EventsForm/Events.module.sass";
-import moment from 'moment';
 
 const EventsList = (props) => {
     const [updList, setupdList] = useState(null);
