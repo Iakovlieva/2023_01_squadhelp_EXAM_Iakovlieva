@@ -17,13 +17,12 @@ import EventsPage from './pages/EventsPage/EventsPage';
 import 'react-toastify/dist/ReactToastify.css';
 import ContestCreationPage from './pages/ContestCreation/ContestCreationPage';
 import CONSTANTS from './constants';
-import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import HowItWorksPage from './pages/HowItWorksPage/HowItWorksPage';
 
 const App = () => {
     return (
-      <Router history={browserHistory}>
+      <Router >
         <ToastContainer
           position="top-center"
           autoClose={5000}

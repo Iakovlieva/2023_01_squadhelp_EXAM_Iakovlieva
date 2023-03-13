@@ -14,6 +14,12 @@ const Header = (props) => {
       }
     },[]);
 
+    useEffect(() => {
+      const {history, error} = props;
+      if (error && error.status === 408  && history.location.pathname !== '/howitworks' && history.location.pathname !== '/') {
+        logOut();
+      }
+    },[props.error]);
 
     const logOut = () => {
       localStorage.clear();
