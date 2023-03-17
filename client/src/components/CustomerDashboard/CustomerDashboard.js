@@ -31,7 +31,7 @@ const CustomerDashboard = (props) => {
   };
 
   const getContests = () => {
-    props.getContests({ limit: 8, contestStatus: props.customerFilter });
+    props.getContests({ limit: 8, offset: 0, contestStatus: props.customerFilter });
   };
 
 

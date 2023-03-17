@@ -38,14 +38,14 @@ router.post(
   userController.payment,
 );
 
-router.post(
-  '/getCustomersContests',
+router.get(
+  '/getCustomersContests/:limit/:offset',
   checkToken.checkToken,
   contestController.getCustomersContests,
 );
 
-router.post(
-  '/getAllOffers',
+router.get(
+  '/getAllOffers/:limit/:offset',
   checkToken.checkToken,
   contestController.getAllOffers,
 );
@@ -64,7 +64,7 @@ router.post(
   contestController.getContests,
 );
 
-router.post(
+router.get(
   '/getUser',
   checkToken.checkAuth,
 );
@@ -75,7 +75,7 @@ router.get(
   contestController.downloadFile,
 );
 
-router.post(
+router.put(
   '/updateContest',
   checkToken.checkToken,
   upload.updateContestFile,
@@ -90,21 +90,21 @@ router.post(
   contestController.setNewOffer,
 );
 
-router.post(
+router.put(
   '/setOfferStatus',
   checkToken.checkToken,
   basicMiddlewares.onlyForCustomerWhoCreateContestOrModerator,
   contestController.setOfferStatus,
 );
 
-router.post(
+router.put(
   '/changeMark',
   checkToken.checkToken,
   basicMiddlewares.onlyForCustomer,
   userController.changeMark,
 );
 
-router.post(
+router.put(
   '/updateUser',
   checkToken.checkToken,
   upload.uploadAvatar,
@@ -124,25 +124,25 @@ router.post(
   chatController.addMessage,
 );
 
-router.post(
-  '/getChat',
+router.get(
+  '/getChat/:interlocutorId',
   checkToken.checkToken,
   chatController.getChat,
 );
 
-router.post(
+router.get(
   '/getPreview',
   checkToken.checkToken,
   chatController.getPreview,
 );
 
-router.post(
+router.put(
   '/blackList',
   checkToken.checkToken,
   chatController.blackList,
 );
 
-router.post(
+router.put(
   '/favorite',
   checkToken.checkToken,
   chatController.favoriteChat,
@@ -154,7 +154,7 @@ router.post(
   chatController.createCatalog,
 );
 
-router.post(
+router.put(
   '/updateNameCatalog',
   checkToken.checkToken,
   chatController.updateNameCatalog,
@@ -166,19 +166,19 @@ router.post(
   chatController.addNewChatToCatalog,
 );
 
-router.post(
-  '/removeChatFromCatalog',
+router.delete(
+  '/removeChatFromCatalog/:chatId/:catalogId',
   checkToken.checkToken,
   chatController.removeChatFromCatalog,
 );
 
-router.post(
-  '/deleteCatalog',
+router.delete(
+  '/deleteCatalog/:catalogId',
   checkToken.checkToken,
   chatController.deleteCatalog,
 );
 
-router.post(
+router.get(
   '/getCatalogs',
   checkToken.checkToken,
   chatController.getCatalogs,

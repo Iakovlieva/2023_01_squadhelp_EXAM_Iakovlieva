@@ -59,7 +59,8 @@ module.exports.addMessage = async (req, res, next) => {
 };
 
 module.exports.getChat = async (req, res, next) => {
-  const participants = [req.tokenData.userId, req.body.interlocutorId];
+  const { interlocutorId } = req.params;
+  const participants = [req.tokenData.userId, interlocutorId];
   participants.sort(
     (participant1, participant2) => participant1 - participant2);
   try {
@@ -82,7 +83,7 @@ module.exports.getChat = async (req, res, next) => {
     });
         
     const interlocutor = await userQueries.findUser(
-      { id: req.body.interlocutorId });
+      { id: interlocutorId });
       
     res.send({
       messages,
@@ -295,8 +296,9 @@ module.exports.addNewChatToCatalog = async (req, res, next) => {
 
 module.exports.removeChatFromCatalog = async (req, res, next) => {
   try {
+    const { chatId, catalogId } = req.params;
     const updatedCatalog= await db.Catalog.findOne( { 
-      where: { id: req.body.catalogId, userId: req.tokenData.userId },
+      where: { id: catalogId, userId: req.tokenData.userId },
       attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: [
         {
@@ -309,7 +311,7 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
     if (!updatedCatalog) {
       throw new ServerError(`cannot update chat's Catalog`);
     }  
-    const result = await updatedCatalog.removeConversation( req.body.chatId );  
+    const result = await updatedCatalog.removeConversation( chatId );  
     const catalog = await catalogInformation( updatedCatalog.id , req.tokenData.userId);
  
     res.send(catalog);
@@ -320,7 +322,8 @@ module.exports.removeChatFromCatalog = async (req, res, next) => {
 
 module.exports.deleteCatalog = async (req, res, next) => {
   try {
-    const deletedCatalog = await db.Catalog.findOne( {  where: { id: req.body.catalogId, userId: req.tokenData.userId }}); 
+    const { catalogId } = req.params;
+    const deletedCatalog = await db.Catalog.findOne( {  where: { id: catalogId, userId: req.tokenData.userId }}); 
     if (!deletedCatalog) {
       throw new ServerError(`cannot update chat's Catalog`);
     }  

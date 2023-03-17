@@ -14,7 +14,7 @@ module.exports.dataForContest = async (req, res, next) => {
     const { body: { characteristic1, characteristic2 } } = req;
     console.log(req.body, characteristic1, characteristic2);
     const types = [characteristic1, characteristic2, 'industry'].filter(Boolean);
-
+  
     const characteristics = await db.Select.findAll({
       where: {
         type: {
@@ -313,11 +313,12 @@ module.exports.setOfferStatus = async (req, res, next) => {
 };
 
 module.exports.getCustomersContests = (req, res, next) => {
+  const { limit, offset } = req.params;
   const types = [CONSTANTS.OFFER_STATUS_ALLOWED, CONSTANTS.OFFER_STATUS_REJECTED, CONSTANTS.OFFER_STATUS_WON].filter(Boolean);  
   db.Contest.findAll({
     where: { status: req.headers.status, userId: req.tokenData.userId },
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
+    limit,
+    offset,
     order: [['id', 'DESC']],
     include: [
       {
@@ -377,9 +378,10 @@ module.exports.getContests = (req, res, next) => {
 
 
 module.exports.getAllOffers = (req, res, next) => {
+  const { limit, offset } = req.params; 
   db.Offer.findAll({
-    limit: req.body.limit,
-    offset: req.body.offset ? req.body.offset : 0,
+    limit,
+    offset,
     order: [['id', 'DESC']], 
     include: [
       {
