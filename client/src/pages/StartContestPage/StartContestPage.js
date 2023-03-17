@@ -7,6 +7,7 @@ import styles from './StartContestPage.module.sass';
 import Footer from '../../components/Footer/Footer';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Header from '../../components/Header/Header';
+import ButtonGroupComponent from '../../components/ButtonGroupComponent/ButtonGroupComponent';
 
 const StartContestPage = (props) => {
   if (!props.userStore.data){
@@ -108,6 +109,7 @@ const StartContestPage = (props) => {
           />
         </div>
       </div>
+      <ButtonGroupComponent />
       <Footer />
     </div>
   );
