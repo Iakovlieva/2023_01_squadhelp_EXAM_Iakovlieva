@@ -1,12 +1,12 @@
 const db = require('../models');
 const ServerError =require('../errors/ServerError');
-const NotFound = require('../errors/UserNotFoundError');
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const controller = require('../socketInit');
 const UtilFunctions = require('../utils/functions');
 const CONSTANTS = require('../constants');
-const nodemailer = require('nodemailer');
+const {sendingMail} = require('../utils/sendEmail');
+
 
 module.exports.dataForContest = async (req, res, next) => {
   const response = {};
@@ -152,32 +152,6 @@ module.exports.setNewOffer = async (req, res, next) => {
   }
 };
 
-const sendingOfferMail= async( creatormail, text ) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: CONSTANTS.MAIL_ACCOUNT,
-        pass: CONSTANTS.MAIL_PASSWORD,
-      },
-    });
-
-    let mailOptions = {
-      from: CONSTANTS.MAIL_ACCOUNT,
-      to: creatormail,
-      subject: 'Your offer in SquardHelp was moderated',
-      text: `Your offer - ${text}`,
-    };
-
-    await transporter.sendMail(mailOptions);
-  } catch (error) {
-      throw new NotFound(`Can't send email`);
-  }
-}
-
 const rejectOffer = async (offerId, creatorId, contestId) => {
   const rejectedOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_REJECTED }, { id: offerId });
@@ -191,7 +165,7 @@ const allowOffer = async (offerId, creatorId, contestId) => {
   const foundOffer = await contestQueries.findOffer({ id: offerId });
   const offerInfo = (!foundOffer.text) ? foundOffer.originalFileName: foundOffer.text;
 
-  await sendingOfferMail(foundUser.email, `${offerInfo} succesfully moderated` );
+  await sendingMail(foundUser.email,'Your offer in SquardHelp was moderated', `Your offer - ${offerInfo} succesfully moderated` );
 
   const allowedOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_ALLOWED }, { id: offerId });
@@ -205,7 +179,7 @@ const forbidOffer = async (offerId, creatorId, contestId) => {
   const foundOffer = await contestQueries.findOffer({ id: offerId });
   const offerInfo = (!foundOffer.text) ? foundOffer.originalFileName: foundOffer.text;
 
-  await sendingOfferMail(foundUser.email, `${offerInfo} didn't pass moderation` );
+  await sendingMail(foundUser.email, 'Your offer in SquardHelp was moderated', `Your offer - ${offerInfo} didn't pass moderation` );
 
   const forbiddenOffer = await contestQueries.updateOffer(
     { status: CONSTANTS.OFFER_STATUS_FORBIDDEN }, { id: offerId });
