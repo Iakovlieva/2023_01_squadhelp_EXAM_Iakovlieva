@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
-import {getEventsRequest, createEventRequest, deleteEventRequest } from '../../actions/actionCreator';
+import {getEventsRequest, createEventRequest, deleteEventRequest, deleteDeadEventsRequest } from '../../actions/actionCreator';
 import EventsList from '../../components/EventsList/EventsList';
 import EventsForm from '../../components/EventsForm/EventsForm';
 import Header from '../../components/Header/Header';
@@ -21,12 +21,16 @@ const EventsPage = (props) => {
         props.deleteEventRequest(id);
     }
 
+    const delDeadEvents = (date) => {
+        props.deleteDeadEventsRequest(date);
+    }
+
     return (
         <div>
              <Header />
              <div className={styles.mainInfoContainer}>
                 <div className={styles.infoContainer}>
-                    <EventsList eventsList={props.events.eventsList} delCallback={delEvent}/>                            
+                    <EventsList eventsList={props.events.eventsList} delCallback={delEvent} delDeadCallback={delDeadEvents}/>                            
                     <EventsForm sendData={getNewEvent}/>            
                 </div>
             </div>    
@@ -40,7 +44,8 @@ const mapStateToProps = ({events}) => ({events});
 const mapDispatchToProps = {
     getEventsRequest, 
     createEventRequest, 
-    deleteEventRequest
+    deleteEventRequest,
+    deleteDeadEventsRequest
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsPage);

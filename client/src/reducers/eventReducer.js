@@ -44,7 +44,16 @@ const eventReducer = (state = initialState, action) => {
             eventsList,
             error: null
         }
-        }        
+        }   
+        
+        case ACTION.DELETE_DEAD_EVENTS_SUCCESS: {
+          const {data} = action;
+          return {
+              ...state,
+              eventsList: data,
+              error: null
+          }
+          }          
 
     default:
       return state;

@@ -362,6 +362,28 @@ export const deleteEventError = (error) => {
   }
 }
 
+
+export const deleteDeadEventsRequest = (payload) => {
+  return {
+      type: ACTION.DELETE_DEAD_EVENTS_REQUEST,
+      payload
+  }
+}
+
+export const deleteDeadEventsSuccess = (data) => {  
+  return {
+      type: ACTION.DELETE_DEAD_EVENTS_SUCCESS,
+      data
+  }
+}
+
+export const deleteDeadEventsError = (error) => {
+  return {
+      type: ACTION.DELETE_DEAD_EVENTS_ERROR,
+      error
+  }
+}
+
 /***********************/
 
 export const getOffersForModerator = (data) =>({

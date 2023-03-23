@@ -1,11 +1,13 @@
-import {getEvents, createEvent, deleteEvent} from '../api/eventController';
+import {getEvents, createEvent, deleteEvent, deleteDeadEvents} from '../api/eventController';
 import {
     getEventsSuccess,
     getEventsError,
     createEventSuccess,
     createEventError,
     deleteEventSuccess,
-    deleteEventError
+    deleteEventError,
+    deleteDeadEventsSuccess,
+    deleteDeadEventsError
 } from '../actions/actionCreator';
 import {put} from 'redux-saga/effects';
 
@@ -36,5 +38,14 @@ export function* deleteEventSaga(action) {
          yield put(deleteEventSuccess(data));
     } catch(error) {
         yield put(deleteEventError(error));
+    }
+}
+
+export function* deleteDeadEventsSaga(action) {
+    try {             
+         const data = yield deleteDeadEvents(action.payload);
+         yield put(deleteDeadEventsSuccess(data));
+    } catch(error) {
+        yield put(deleteDeadEventsError(error));
     }
 }

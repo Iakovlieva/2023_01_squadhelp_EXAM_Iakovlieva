@@ -27,7 +27,7 @@ import {
   removeChatFromCatalogSaga,
   changeCatalogName,
 } from './chatSagas';
- import {getEventsSaga, createEventSaga, deleteEventSaga} from './eventsSagas';
+ import {getEventsSaga, createEventSaga, deleteEventSaga, deleteDeadEventsSaga} from './eventsSagas';
 
 function* rootSaga() {
   yield takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -62,6 +62,7 @@ function* rootSaga() {
   yield takeLatest(ACTION.GET_EVENTS_REQUEST, getEventsSaga);
   yield takeLatest(ACTION.CREATE_EVENT_REQUEST, createEventSaga);
   yield takeLatest(ACTION.DELETE_EVENT_REQUEST, deleteEventSaga);  
+  yield takeLatest(ACTION.DELETE_DEAD_EVENTS_REQUEST, deleteDeadEventsSaga);   
 
 
   yield takeLatest(ACTION.GET_OFFERS_FOR_MODERATOR, moderatorOffersSaga);  

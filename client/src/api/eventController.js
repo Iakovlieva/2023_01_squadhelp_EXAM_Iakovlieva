@@ -19,3 +19,10 @@ export const deleteEvent = async (eventData) => {
     localStorage.setItem('EventsList',JSON.stringify(newEventsList));
     return eventData;
 }
+
+export const deleteDeadEvents = async (deadline) => {
+    const eventsList = JSON.parse(localStorage.getItem('EventsList')) || [];
+    const newEventsList = eventsList.filter((el)=> (Date.parse(el.eventDate) - Date.parse(deadline)) > 0);
+    localStorage.setItem('EventsList',JSON.stringify(newEventsList));
+    return newEventsList;
+}

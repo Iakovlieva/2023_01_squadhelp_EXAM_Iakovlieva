@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styles from "../EventsForm/Events.module.sass";
 import moment from 'moment';
-
+import { toast } from 'react-toastify';
+import Notification from '../Notification/Notification';
 
 const EventsItem = (props) => {
   const {item: {eventName, eventDate, deadline, id}, maxGreenValue} = props;
@@ -18,24 +19,16 @@ const EventsItem = (props) => {
   },[]);
    
   function updateClockToNotification() {  
-    const timeToEvent = Date.parse(eventDate) - Date.parse(new Date());//- deadline*60*1000;  //timetoNotification
-    setTimeLeft(timeToEvent);
-    if (timeToEvent <= 0) { 
-      clearInterval(timeinterval);
-      props.rerender(eventName);
-     // timeinterval = setInterval(updateClockToEvent, 1000);  
-    }
-  }
-
-/*  function updateClockToEvent() {  
     const timeToEvent = Date.parse(eventDate) - Date.parse(new Date());
-    if (timeToEvent <= 0) { 
-      clearInterval(timeinterval);
-      props.rerender();
+    setTimeLeft(timeToEvent);
+    if ( timeToEvent - deadline * 60 * 1000 === 0 ) {
+       toast(<Notification message={`Attention: Event ${eventName} is coming`} />);      
+    }     
+    if ( timeToEvent === 0 ) {     
+      clearInterval(timeinterval);    
+      props.rerender(eventName);
     }
   }
-  
-*/
 
 
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24)) > 0 ? Math.floor(timeLeft / (1000 * 60 * 60 * 24)) + ' days ' : '';  
@@ -47,7 +40,7 @@ const EventsItem = (props) => {
   const timeToNotificate = timeLeft- deadline*60*1000;
   const deadlineTime = Date.parse(eventDate)-deadline*60*1000;
   
-  let bgColor = timeToNotificate > 0 ? "#eee" : timeLeft > 0 ? "orange" : "red";
+  let bgColor = timeToNotificate > 0 ? "#eee" : timeLeft > 0 ? "orange" : "#f1abab";
   
   const procentToNotification=100-Math.ceil(timeToNotificate*100/maxGreenValue)+'%';  
 
@@ -61,7 +54,7 @@ const EventsItem = (props) => {
           </div>      
           <div className={styles.eventRemainingTime}>
               <span> { timeToNotificate>0 && ( remainingTime ) }</span>           
-              <button onClick={() => props.delete(id)}>X</button>                               
+              <span onClick={() => props.delete(id)}>X</span>                               
           </div>   
           {timeToNotificate>0 && <div className={styles.eventListItemGreen} style={{width: procentToNotification}} >.</div>}                          
       </div>
