@@ -16,17 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Message, { foreignKey: 'sender', targetKey: 'id' });
 
       User.hasMany(models.Catalog, { foreignKey: 'userId', targetKey: 'id' });
-
-   /*   Users.hasMany(models.Order, 
-        { foreignKey: 'userId', targetKey: 'id' }
-      );
-      Users.hasMany(models.RefreshToken, {
-        foreignKey: 'userId', targetKey: 'id' 
-      });
-      Users.hasMany(models.Participant,
-        { foreignKey: 'userId', targetKey: 'id' }
-      );
-*/     
+   
     }   
   }
   User.init({

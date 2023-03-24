@@ -12,7 +12,6 @@ module.exports.dataForContest = async (req, res, next) => {
   const response = {};
   try {
     const { body: { characteristic1, characteristic2 } } = req;
-    console.log(req.body, characteristic1, characteristic2);
     const types = [characteristic1, characteristic2, 'industry'].filter(Boolean);
   
     const characteristics = await db.Select.findAll({
@@ -33,13 +32,11 @@ module.exports.dataForContest = async (req, res, next) => {
     });
     res.send(response);
   } catch (err) {
-    console.log(err);
     next(new ServerError('cannot get contest preferences'));
   }
 };
 
 module.exports.getContestById = async (req, res, next) => {
-  //Если креатор, то показываем те которое с его ИД, а если кустомер - то разрешенные/реджект/вон
   const types = [CONSTANTS.OFFER_STATUS_ALLOWED, CONSTANTS.OFFER_STATUS_REJECTED, CONSTANTS.OFFER_STATUS_WON].filter(Boolean);  
   try {
     let contestInfo = await db.Contest.findOne({
@@ -216,13 +213,6 @@ const resolveOffer = async (
     contestId,
   }, transaction);
 
-  /*чтобы Кустомер видел только те оферы которые прошли модерацию и после победы какого-то из оферов - сделала чтоб те которые были отклоненными - так ими и остались, и те которые были пендинг - 
-  тоже чтобы были отклоненными, т.е. "все что не подтверждено - отклонено"
-
-  по идее можно было оставить фильтр на "алоуед", но тогда у модератора бы "болтались" оферы на рассмотрении, которые уже не нужны
-
-    //после рефакторинга и добавления фильтра на активные/завершенные контесты - стала эта часть уже не так актуальна
-   */
   transaction.commit();
   const arrayRoomsId = [];
   let winningoffer=null;
@@ -234,11 +224,7 @@ const resolveOffer = async (
       winningoffer = offer;
     }
   });
-  /*
-   тут по ходу выяснения нашелся баг, который не заметила вначале, не обновлялись оферы когда один из них победит, 
-   поскольку неверно возвращался победитель
-   и заодно поправила оповещение - победителю про проигравшие его же - не приходит теперь
-   */
+  
   if (arrayRoomsId.length > 0){
     controller.getNotificationController().emitChangeOfferStatus(arrayRoomsId,
       'Someone of yours offers was rejected', contestId);

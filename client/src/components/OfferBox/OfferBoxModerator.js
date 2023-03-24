@@ -1,7 +1,5 @@
 import React from 'react';
-//import { connect } from 'react-redux';
 import Rating from 'react-rating';
-//import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import { confirmAlert } from 'react-confirm-alert';
 import CONSTANTS from '../../constants';

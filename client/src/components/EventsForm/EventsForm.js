@@ -58,20 +58,6 @@ const EventsForm = (props) => {
                                 warning: styles.warning,
                                 }} />               
                         </div>  
-{/*
-                        <div className={styles.inputContainer}>
-                            <span className={styles.inputHeader}>Remain at:</span>                        
-                            <FormInput
-                                name="deadline"
-                                type="datetime-local"
-                                label="Event remaining time"                             
-                                classes={{
-                                container: styles.componentInputContainer,
-                                input: styles.input,
-                                warning: styles.warning,
-                                }} />               
-                        </div>   
-*/}
                         <div className={styles.inputContainer}>
                             <SelectInput
                                 name="deadline"

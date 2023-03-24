@@ -189,6 +189,3 @@ const mapStateToProps = (state) => {
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OfferBox));
 
-/*
-кнопка чата имеет смысл только пока оффер рассматривается? дальше - о чем разговаривать?)
-*/

@@ -257,7 +257,6 @@ a{
   opacity: 100%;
 }
 
-/******************AccordeonUseState       styles  start*****************************/
 .faqElement {
   border: 1px solid rgb(231, 234, 243);
   width: 100%;
@@ -307,9 +306,6 @@ a{
   transition: padding-bottom  0.5s ease;
 }
 
-/******************AccordeonUseState       styles  end*****************************/
-
-/******************Accordeon with details , summary   styles start */
 .faqElement{
   width: 100%;
   margin-top: 0.5rem; 
@@ -368,8 +364,6 @@ a{
   0%    {max-height:0;}
   100%  {max-height:2000px;}
 }
-/******************Accordeon with details , summary   styles end */
-
 
 .blueGradient{
   background-image: linear-gradient(150deg,#2d1582 0%,#19a0ff 100%);

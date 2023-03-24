@@ -22,7 +22,7 @@ const EventsList = (props) => {
                 elem.timeToEvent = Date.parse(elem.eventDate) - Date.parse(new Date());
                 return elem;                
             })
-            .sort((a,b)=> b.timeToEvent>a.timeToEvent ? -1 :1)          //если заменить timeToEvent на timeToNotification то будут выводиться в порядке дедлайнов-предупреждений, а сейчас "оранжевый может попасться среди зеленых"
+            .sort((a,b)=> b.timeToEvent>a.timeToEvent ? -1 :1)          
             .filter((elem) =>  (showRedList ? elem.timeToEvent>0 : true));   
             
             let countOverdueEvents=eventsList.reduce((acc, current)=>{
@@ -31,7 +31,7 @@ const EventsList = (props) => {
             },0);
             if ( (countOverdueEvents === 0) && !showRedList ) setRedList(true);
 
-        let maxGreenValue=7*24*60*60*1000; //7 days   
+        let maxGreenValue=7*24*60*60*1000;   
 
         for (let i = notificationList.length-1; i >= 0; i-- ) {
             if (notificationList[i].timeToNotification > 0) {

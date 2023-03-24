@@ -299,7 +299,6 @@ export const changeModalShow = (data) => ({
 });
 
 
-/***********************************/
 export const getEventsRequest = () => {
   return {
       type: ACTION.GET_EVENTS_REQUEST
@@ -319,7 +318,7 @@ export const getEventsError = (error) => {
       error
   }
 }
-/***********************************/
+
 export const createEventRequest = (payload) => {
   return {
       type: ACTION.CREATE_EVENT_REQUEST,
@@ -340,7 +339,7 @@ export const createEventError = (error) => {
       error
   }
 }
-/***********************************/
+
 export const deleteEventRequest = (payload) => {
   return {
       type: ACTION.DELETE_EVENT_REQUEST,
@@ -362,7 +361,6 @@ export const deleteEventError = (error) => {
   }
 }
 
-
 export const deleteDeadEventsRequest = (payload) => {
   return {
       type: ACTION.DELETE_DEAD_EVENTS_REQUEST,
@@ -383,8 +381,6 @@ export const deleteDeadEventsError = (error) => {
       error
   }
 }
-
-/***********************/
 
 export const getOffersForModerator = (data) =>({
   type: ACTION.GET_OFFERS_FOR_MODERATOR,
